@@ -6,20 +6,23 @@ class Listings
   late String description;
   late String imgUrl;
     //tags for each listing. Maybe there's a better way to do this??
-  late String isAcceptable;
-  late String isAthletics;
-  late String isClothing;
-  late String isElectronics;
-  late String isGood;
-  late String isJewelry;
-  late String isNew;
-  late String isShoes;
+  late bool isAcceptable;
+  late bool isAthletics;
+  late bool isClothing;
+  late bool isElectronics;
+  late bool isGood;
+  late bool isJewelry;
+  late bool isNew;
+  late bool isShoes;
   late String itemTitle;
   late String meetingSpot;
   late String phoneNum;
   late String price;
   late String quantity;
-  late String time;
+  //not too sure if we need this time stamp, items should be sorted based
+  //on how they are gotten from the db in order.
+  //Should be able to get them from db based on asc timestamp
+  //late String time;
 
   //constructor for the class. Requires all of the attributes stored in the listing db
   Listings({
@@ -39,7 +42,7 @@ class Listings
     required this.phoneNum,
     required this.price,
     required this.quantity,
-    required this.time,
+    //required this.time,
   });
 
   //add methods for a listing down here:
