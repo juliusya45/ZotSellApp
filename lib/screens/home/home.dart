@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zot_sell/classes/Listings.dart';
+import 'package:zot_sell/classes/listings.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
     Listings(
       datePosted: '2023-02-15',
       description: 'A high-quality silver bracelet from Kate Spade',
-      imgUrl: 'https://firebasestorage.googleapis.com/v0/b/zot-list.appspot.com/o/images%2FBv7W7jrPpWKIWY7Qma9n.png?alt=media&token=d3a81496-c9a1-4008-a4f2-e3268446f640',
+      imgUrl: 'https://firebasestorage.googleapis.com/v0/b/zot-list.appspot.com/o/images%2F1GXUCfu9trXFUYTmnpIK.png?alt=media&token=f45b6864-ad5e-4f12-b335-ae50289c6a99',
       isAcceptable: false,
       isAthletics: false,
       isClothing: true,
@@ -70,6 +70,26 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.blue[300],
         child: const Icon(Icons.add),
       ),
+      body: ListView.builder(
+        itemCount: allListings.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+            child: Card(
+              child: ListTile(
+                onTap: () {
+                  //method to view that listing;
+                },
+                title: Text(allListings[index].itemTitle),
+                leading: CircleAvatar(
+                  //squiggly lines required for square brakets
+                  backgroundImage: Image.network(allListings[index].imgUrl).image,
+                ),
+              ),
+            ),
+          );
+        }
+        ),
     );
   }
 }
