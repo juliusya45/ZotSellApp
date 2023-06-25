@@ -1,3 +1,3 @@
 # zot_sell
 
-A new Flutter project.
+The app version of ZotSell made at Hack@UCI 2023! Being developed and worked on over the summer
