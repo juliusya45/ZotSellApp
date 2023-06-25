@@ -10,6 +10,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   //list for all the Listing items to be displayed
+  
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,9 @@ class _HomeState extends State<Home> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          //what to do after button is pressed
+        },
         backgroundColor: Colors.blue[300],
         child: const Icon(Icons.add),
       ),
