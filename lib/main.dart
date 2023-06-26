@@ -23,6 +23,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => const Loading_Home(),
         '/home': (context) => const Home(allListings: [],),
+        //TODO: will need to change routes to account for authentication
       },
     );
   }
