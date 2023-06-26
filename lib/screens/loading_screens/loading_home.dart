@@ -44,9 +44,10 @@ class _Loading_HomeState extends State<Loading_Home> {
           print('did not get data');
         }
       }
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
+          settings: const RouteSettings(name: '/home'),
           builder: (context) => Home(allListings: allListings)
           ),
       );
