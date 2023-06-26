@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.0.5 <4.0.0'
 
 dependencies:
+  cloud_firestore: ^4.8.1
   firebase_core: ^2.14.0
   flutter:
     sdk: flutter
@@ -18,3 +19,14 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/Inter-Regular.ttf
+        - asset: assets/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/Inter-Light.ttf
+          weight: 300
