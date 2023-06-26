@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zot_sell/screens/home/home.dart';
+import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -18,11 +19,11 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Inter'),
-      home: const Scaffold(
-        body: Center(
-          child: Home(),
-        ),
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Loading_Home(),
+        '/home': (context) => const Home(allListings: [],),
+      },
     );
   }
 }

@@ -1,7 +1,10 @@
 //specifies what a Listing is. Modeled after what is stored in our db
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Listings
 {
+  late String docId;
   late String datePosted;
   late String description;
   late String imgUrl;
@@ -26,6 +29,7 @@ class Listings
 
   //constructor for the class. Requires all of the attributes stored in the listing db
   Listings({
+    required this.docId,
     required this.datePosted,
     required this.description,
     required this.imgUrl,
@@ -46,4 +50,54 @@ class Listings
   });
 
   //add methods for a listing down here:
+
+  //method to turn firestore data into a listing
+  factory Listings.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options,)
+  {
+    final data = snapshot.data();
+    //we don't know docId so leaving blank for now
+    return Listings(
+    docId: '', 
+    datePosted: data?['datePosted'], 
+    description: data?['description'], 
+    imgUrl: data?['imgUrl'], 
+    isAcceptable: data?['isAcceptable'], 
+    isAthletics: data?['isAthletics'], 
+    isClothing: data?['isClothing'], 
+    isElectronics: data?['isElectronics'], 
+    isGood: data?['isGood'], 
+    isJewelry: data?['isJewelry'], 
+    isNew: data?['isNew'], 
+    isShoes: data?['isShoes'], 
+    itemTitle: data?['itemTitle'], 
+    meetingSpot: data?['meetingSpot'], 
+    phoneNum: data?['phoneNum'], 
+    price: data?['price'], 
+    quantity: data?['quantity']);
+  }
+
+  //method to turn a listing into FireStore data
+  //docId attribute is not needed
+  //TODO: check to see if I need to remove null check
+  Map<String, dynamic> toFirestore()
+  {
+    return {
+      if (datePosted != null) 'datePosted' : datePosted,
+      if (description != null) 'description' : description,
+      if (imgUrl != null) 'imgUrl' : imgUrl,
+      if (isAcceptable != null) 'isAcceptable' : isAcceptable,
+      if (isAthletics != null) 'isAthletics' : isAthletics,
+      if (isClothing != null) 'isClothing' : isClothing,
+      if (isElectronics != null) 'isElectronics' : isElectronics,
+      if (isGood != null) 'isGood' : isGood,
+      if (isJewelry != null) 'isJewelry' : isJewelry,
+      if (isNew != null) 'isNew' : isNew,
+      if (isShoes != null) 'isShoes' : isShoes,
+      if (itemTitle != null) 'itemTitle' : itemTitle,
+      if (meetingSpot != null) 'meetingSpot' : meetingSpot,
+      if (phoneNum != null) 'phoneNum' : phoneNum,
+      if (price != null) 'price' : price,
+      if (quantity != null) 'quantity' : quantity,
+    };
+  }
 }
