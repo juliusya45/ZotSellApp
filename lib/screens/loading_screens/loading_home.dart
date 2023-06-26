@@ -54,7 +54,7 @@ class _Loading_HomeState extends State<Loading_Home> {
     });
   }
 
-    //function that runs before the object is created. But does not run everytime it is rebuilt
+  //function that runs before the object is created. But does not run everytime it is rebuilt
   @override
   void initState() {
     super.initState();
