@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:zot_sell/classes/listings.dart';
+import 'package:zot_sell/screens/authenticate/login_screen.dart';
 import 'package:zot_sell/screens/home/home.dart';
 
 class Loading_Home extends StatefulWidget {
@@ -61,15 +63,14 @@ class _Loading_HomeState extends State<Loading_Home> {
     setupDatabase();
   }
 
+//did this wrong, this should be a loading page, first thing to pop up
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: SpinKitSquareCircle(
-          color: Colors.blue,
-          size: 80.0,
-        ),
-      )
-    );
+    return Center(
+          child: SpinKitSquareCircle(
+            color: Colors.blue,
+            size: 80.0,
+          ),
+        );
   }
 }

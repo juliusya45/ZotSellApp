@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zot_sell/classes/listings.dart';
+import 'package:zot_sell/screens/authenticate/login_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.allListings});
@@ -20,9 +22,65 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
+    //user
+    final user = FirebaseAuth.instance.currentUser!;
+
     //accessing listings from allListings
     List<Listings> allListings = widget.allListings;
     return Scaffold(
+      //added drawer to hold different buttons/actions
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                )
+            ),
+            ListTile(
+              title: Text('${user.email!} is signed in'),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text('Log Out'),
+              onTap: () {
+                //signs user out
+                FirebaseAuth.instance.signOut();
+                //Animation that puts the user back onto the login screen
+                //from: https://stackoverflow.com/questions/55586189/flutter-log-out-replace-stack-beautifully
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  PageRouteBuilder(pageBuilder: (BuildContext context, Animation animation,
+                      Animation secondaryAnimation) {
+                    return const LoginScreen();
+                  },
+                  transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) {
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    );
+                  }),
+                  (route) => false
+                  );
+              },
+            )
+          ],
+        )
+      ),
       appBar: AppBar(
         backgroundColor: Colors.green[300],
         title: const Text(

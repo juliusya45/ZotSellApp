@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,8 +10,31 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   //from https://stackoverflow.com/questions/67768950/how-to-add-specific-fixed-value-to-textfield
-  final TextEditingController _textController = TextEditingController();
+  //text controllers
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  //string to force users to use uci email
   final String _userPostfix = '@uci.edu';
+
+  Future signIn() async
+  {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+      );
+    Navigator.pushReplacementNamed(context, '/loading_home');
+  }
+
+  @override
+  //helps with memory usage
+  void dispose() {
+    // TODO: implement dispose
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
 
   //followed this tutorial: https://www.youtube.com/watch?v=aJdIkRipgSk&list=PLlvRDpXh1Se4wZWOWs8yapI8AS_fwDHzf&index=3
   @override
@@ -49,18 +73,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextField(
                   //forces users to use @uci.edu email
                   //from: https://stackoverflow.com/questions/67768950/how-to-add-specific-fixed-value-to-textfield
-                  controller: _textController,
+                  controller: _emailController,
                   onChanged: (value) {
                     if (value == _userPostfix) {
-                      _textController.text = "";
+                      _emailController.text = "";
                       return;
                     }
                     value.endsWith(_userPostfix)
-                        ? _textController.text = value
-                        : _textController.text = value + _userPostfix;
-                    _textController.selection = TextSelection.fromPosition(
+                        ? _emailController.text = value
+                        : _emailController.text = value + _userPostfix;
+                    _emailController.selection = TextSelection.fromPosition(
                         TextPosition(
-                            offset: _textController.text.length -
+                            offset: _emailController.text.length -
                                 _userPostfix.length));
                   },
                   decoration: InputDecoration(
@@ -79,10 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               SizedBox(height: 10),
+
               //password textfield
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: TextField(
+                  controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -100,23 +126,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               SizedBox(height: 10),
+
               //sign in button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  padding: EdgeInsets.all(25),
-                  decoration: BoxDecoration(
-                    color: Colors.green[300],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(child: Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                child: GestureDetector(
+                  onTap: signIn,
+                  child: Container(
+                    padding: EdgeInsets.all(25),
+                    decoration: BoxDecoration(
+                      color: Colors.green[300],
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    )),
+                    child: Center(child: Text(
+                      'Sign In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      )),
+                  ),
                 ),
               ),
               SizedBox(height: 25),
