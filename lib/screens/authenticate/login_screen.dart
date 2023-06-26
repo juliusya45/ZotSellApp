@@ -45,61 +45,59 @@ class _LoginScreenState extends State<LoginScreen> {
             //username/email textfield
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(12)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TextField(
-                    //forces user to put in @uci.edu email
-                    //that way we can have only students register
-                    controller: _textController,
-                    onChanged: (value) {
-                        if (value == _userPostfix) {
-                          _textController.text = "";
-                          return;
-                        }
-                        value.endsWith(_userPostfix)
-                            ? _textController.text = value
-                            : _textController.text = value + _userPostfix;
-                        _textController.selection = TextSelection.fromPosition(
-                            TextPosition(
-                                offset: _textController.text.length -
-                                    _userPostfix.length));
-                      },
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Email@uci.edu',
-                    ),
+              child: TextField(
+                //forces users to use @uci.edu email
+                //from: https://stackoverflow.com/questions/67768950/how-to-add-specific-fixed-value-to-textfield
+                controller: _textController,
+                onChanged: (value) {
+                  if (value == _userPostfix) {
+                    _textController.text = "";
+                    return;
+                  }
+                  value.endsWith(_userPostfix)
+                      ? _textController.text = value
+                      : _textController.text = value + _userPostfix;
+                  _textController.selection = TextSelection.fromPosition(
+                      TextPosition(
+                          offset: _textController.text.length -
+                              _userPostfix.length));
+                },
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  hintText: 'Email@uci.edu',
+                  fillColor: Colors.grey[200],
+                  filled: true
+                ),
                 ),
               ),
-            ),
             SizedBox(height: 10),
             //password textfield
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(12)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Password',
-                    ),
+              child: TextField(
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  hintText: 'Password',
+                  fillColor: Colors.grey[200],
+                  filled: true
+                ),
+                obscureText: true,
                 ),
               ),
-            ),
             SizedBox(height: 10),
             //sign in button
             Padding(
