@@ -66,8 +66,9 @@ class _Loading_HomeState extends State<Loading_Home> {
 //did this wrong, this should be a loading page, first thing to pop up
   @override
   Widget build(BuildContext context) {
-    return const Center(
-          child: SpinKitSquareCircle(
+    return Scaffold( 
+      backgroundColor: Colors.grey[200],
+      body: const SpinKitSquareCircle(
             color: Colors.blue,
             size: 80.0,
           ),
