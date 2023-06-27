@@ -135,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -157,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -180,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(

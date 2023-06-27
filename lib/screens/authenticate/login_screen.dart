@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10),
               const Text(
-                'Please login or register below',
+                'Please login to your account:',
                 style: TextStyle(
                   fontSize: 24,
                 ),
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.blueGrey),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
