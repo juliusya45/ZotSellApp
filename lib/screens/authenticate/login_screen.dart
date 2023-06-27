@@ -19,13 +19,29 @@ class _LoginScreenState extends State<LoginScreen> {
   //string to force users to use uci email
   final String _userPostfix = '@uci.edu';
 
+  //String that displays error messages
+  String errorMsg = '';
+
   Future signIn() async
   {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
+    try 
+    {
+      setState(() {
+        errorMsg = '';
+        });
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
-    Navigator.pushReplacementNamed(context, '/loading_home');
+      Navigator.pushReplacementNamed(context, '/loading_home');
+    } 
+    on Exception catch (e) 
+    {
+      setState(() {
+        String exceptionMsg = e.toString();
+        errorMsg = exceptionMsg.replaceAll(RegExp('\\[.*?\\]'), '');
+      });
+    }
   }
 
   @override
@@ -74,7 +90,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 24,
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 10),
+
+              //displays error text
+              Text(errorMsg,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 30),
           
               //username/email textfield
               Padding(
@@ -98,11 +125,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Email@uci.edu',
@@ -111,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               //password textfield
               Padding(
@@ -120,11 +147,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Password',
@@ -134,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               //sign in button
               Padding(
@@ -142,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: GestureDetector(
                   onTap: signIn,
                   child: Container(
-                    padding: EdgeInsets.all(25),
+                    padding: const EdgeInsets.all(25),
                     decoration: BoxDecoration(
                       color: Colors.green[300],
                       borderRadius: BorderRadius.circular(12),
@@ -164,18 +191,20 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Don\'t have an account?',
+                  const Text('Don\'t have an account?',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 18
                     )
                   ),
                   GestureDetector(
                     onTap: widget.showRegisterPage,
-                    child: Text(
+                    child: const Text(
                       ' Sign Up Now',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
+                          fontSize: 18
                         )
                       ),
                   )
