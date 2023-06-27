@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final VoidCallback showRegisterPage;
+
+  const LoginScreen({super.key, required this.showRegisterPage});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -145,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.green[300],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Center(child: Text(
+                    child: const Center(child: Text(
                       'Sign In',
                       style: TextStyle(
                         color: Colors.white,
@@ -156,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
           
               //new user? register now
               Row(
@@ -167,13 +169,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.bold,
                     )
                   ),
-                  Text(
-                    ' Register Now',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      )
-                    )
+                  GestureDetector(
+                    onTap: widget.showRegisterPage,
+                    child: Text(
+                      ' Register Now',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        )
+                      ),
+                  )
                 ],
               ),
             ]),
