@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -48,24 +48,31 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
               //logo would go here
-              Icon(Icons.shopping_basket_outlined, size: 100),
-              SizedBox(height: 75),
+              const Text(
+                'ZotSell',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 54,
+                )
+                ),
+              Icon(Icons.shopping_cart, size: 100, color: Colors.green[300]),
+              const SizedBox(height: 45),
               //Header text to welcome user
-              Text(
+              const Text(
                 'Welcome!',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 36,
                 ),
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Please login or register below',
                 style: TextStyle(
                   fontSize: 24,
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
           
               //username/email textfield
               Padding(
@@ -89,11 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Email@uci.edu',
@@ -102,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               //password textfield
               Padding(
@@ -111,11 +118,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Password',
@@ -125,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               //sign in button
               Padding(
@@ -133,12 +140,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: GestureDetector(
                   onTap: signIn,
                   child: Container(
-                    padding: EdgeInsets.all(25),
+                    padding: const EdgeInsets.all(25),
                     decoration: BoxDecoration(
                       color: Colors.green[300],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Center(child: Text(
+                    child: const Center(child: Text(
                       'Sign In',
                       style: TextStyle(
                         color: Colors.white,
@@ -149,10 +156,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
           
               //new user? register now
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Don\'t have an account?',
