@@ -18,6 +18,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //string to force users to use uci email
   final String _userPostfix = '@uci.edu';
 
+  //String that displays error messages
+  String errorMsg = '';
+
   @override
   void dispose()
   {
@@ -28,18 +31,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future signUp() async
   {
-    if (passwordConfirmed())
+    try 
     {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: _emailController.text.trim(), 
-      password: _passwordController.text.trim()
-      );
-    }
-    else
+      if (passwordConfirmed())
+      {
+        setState(() {
+        errorMsg = '';
+        });
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(), 
+        password: _passwordController.text.trim()
+        );
+      }
+      else
+      {
+        //here we can add/show a text widget above the email field of any errors
+        //implement with try/catch block above?
+        print('Passwords do not match');
+        setState(() {
+        errorMsg = 'Passwords do not match';
+      });
+      }
+    } 
+    on Exception catch (e) 
     {
-      //here we can add/show a text widget above the email field of any errors
-      //implement with try/catch block above?
-      print('passwords do not match');
+      setState(() {
+        String exceptionMsg = e.toString();
+        errorMsg = exceptionMsg.replaceAll(RegExp('\\[.*?\\]'), '');
+      });
     }
   }
 
@@ -65,25 +84,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              //logo would go here
-              const Text(
-                'ZotSell',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 54,
-                )
-                ),
-              Icon(Icons.shopping_cart, size: 100, color: Colors.green[300]),
-              const SizedBox(height: 45),
               //Header text to welcome user
               const Text(
                 'Sign Up',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 36,
+                  fontSize: 48,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               const Text(
                 'Please provide your @uci email and a password to sign up!',
                 style: TextStyle(
@@ -91,7 +100,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
+
+              //error text
+              Text(errorMsg,
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+              ),
+
+              SizedBox(height: 20),
           
               //username/email textfield
               Padding(
