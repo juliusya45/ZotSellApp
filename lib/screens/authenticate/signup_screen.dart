@@ -42,6 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: _emailController.text.trim(), 
         password: _passwordController.text.trim()
         );
+        Navigator.pushReplacementNamed(context, '/loading_home');
       }
       else
       {

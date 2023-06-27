@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zot_sell/screens/authenticate/login_screen.dart';
 import 'package:zot_sell/screens/authenticate/signup_screen.dart';
 
+//this is to toggle between the login and signup screens
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
