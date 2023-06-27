@@ -30,8 +30,8 @@ class MainApp extends StatelessWidget {
         //TODO: will need to change routes to account for authentication
         //temporary routes on the bottom:
 
-        //TODO: change to signup screen when that is created
-        '/signup': (context) => const LoginScreen(),
+        // //TODO: change to signup screen when that is created
+        // '/signup': (context) => const LoginScreen(),
       },
     );
   }

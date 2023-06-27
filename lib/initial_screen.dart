@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zot_sell/screens/authenticate/login_screen.dart';
+import 'package:zot_sell/screens/authenticate/auth_page.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 
 class InitialScreen extends StatelessWidget {
@@ -21,7 +21,8 @@ class InitialScreen extends StatelessWidget {
           else
           {
             print('back to login');
-            return const LoginScreen();
+            //auth page is another inbetween that switches between login and register page
+            return AuthPage();
           }
         },
       ),

@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   GestureDetector(
                     onTap: widget.showRegisterPage,
                     child: Text(
-                      ' Register Now',
+                      ' Sign Up Now',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
