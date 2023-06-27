@@ -100,18 +100,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               //error text
               Text(errorMsg,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.red,
                 fontSize: 18,
               ),
               textAlign: TextAlign.center,
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
           
               //username/email textfield
               Padding(
@@ -135,11 +135,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Email@uci.edu',
@@ -148,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               //password textfield
               Padding(
@@ -157,11 +157,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Password',
@@ -171,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   obscureText: true,
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               //confirm password textfield
               Padding(
@@ -180,11 +180,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: const BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Confirm Password',
@@ -194,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   obscureText: true,
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               //sign in button
               Padding(
@@ -202,7 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: GestureDetector(
                   onTap: signUp,
                   child: Container(
-                    padding: EdgeInsets.all(25),
+                    padding: const EdgeInsets.all(25),
                     decoration: BoxDecoration(
                       color: Colors.green[300],
                       borderRadius: BorderRadius.circular(12),
@@ -224,18 +224,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have an account?',
+                  const Text('Already have an account?',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 18
                     )
                   ),
                   GestureDetector(
                     onTap: widget.showLoginPage,
-                    child: Text(
+                    child: const Text(
                       ' Login Here',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
+                          fontSize: 18
                         )
                       ),
                   )
