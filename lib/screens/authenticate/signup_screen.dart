@@ -13,6 +13,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //text controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   //string to force users to use uci email
   final String _userPostfix = '@uci.edu';
@@ -27,10 +28,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future signUp() async
   {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    if (passwordConfirmed())
+    {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: _emailController.text.trim(), 
       password: _passwordController.text.trim()
       );
+    }
+    else
+    {
+      //here we can add/show a text widget above the email field of any errors
+      //implement with try/catch block above?
+      print('passwords do not match');
+    }
+  }
+
+  bool passwordConfirmed()
+  {
+    if(_passwordController.text.trim() == _confirmPasswordController.text.trim())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   @override
@@ -123,6 +145,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Password',
+                    fillColor: Colors.grey[200],
+                    filled: true
+                  ),
+                  obscureText: true,
+                  ),
+                ),
+              SizedBox(height: 10),
+
+              //confirm password textfield
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: TextField(
+                  controller: _confirmPasswordController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Confirm Password',
                     fillColor: Colors.grey[200],
                     filled: true
                   ),
