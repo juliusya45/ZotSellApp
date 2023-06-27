@@ -16,12 +16,12 @@ class InitialScreen extends StatelessWidget {
           {
             print('to home screen');
             //if the user successfully signed in we show a loading spinner and do everything else
-            return Loading_Home();
+            return const Loading_Home();
           }
           else
           {
             print('back to login');
-            return LoginScreen();
+            return const LoginScreen();
           }
         },
       ),

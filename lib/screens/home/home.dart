@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
     //accessing listings from allListings
     List<Listings> allListings = widget.allListings;
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       //added drawer to hold different buttons/actions
       drawer: Drawer(
         child: ListView(
@@ -136,7 +137,7 @@ class _HomeState extends State<Home> {
                   //Avatar that shows picture of the item
                   leading: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
+                    child: SizedBox(
                       height: 70,
                       width: 70,
                       //Shows an image based on the link of the image

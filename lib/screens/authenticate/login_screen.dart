@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 24,
                 ),
               ),
-              const SizedBox(height: 50),
+              SizedBox(height: 50),
           
               //username/email textfield
               Padding(
@@ -96,11 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Email@uci.edu',
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   ),
                 ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               //password textfield
               Padding(
@@ -118,11 +118,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Colors.green),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Password',
@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                   ),
                 ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               //sign in button
               Padding(
@@ -140,12 +140,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: GestureDetector(
                   onTap: signIn,
                   child: Container(
-                    padding: const EdgeInsets.all(25),
+                    padding: EdgeInsets.all(25),
                     decoration: BoxDecoration(
                       color: Colors.green[300],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Center(child: Text(
+                    child: Center(child: Text(
                       'Sign In',
                       style: TextStyle(
                         color: Colors.white,
@@ -156,10 +156,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 25),
+              SizedBox(height: 25),
           
               //new user? register now
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Don\'t have an account?',
