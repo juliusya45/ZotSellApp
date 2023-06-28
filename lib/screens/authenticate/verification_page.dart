@@ -18,7 +18,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
   //boolean that determines whether or not email was verified
     bool isEmailVerified = false;
     Timer? timer;
-    String verificationText = 'Verifying email...';
+    Timer? sendHomeTime;
+    String verificationText = 'Waiting for Verification...';
 
     checkEmailVerified() async
     {
@@ -31,10 +32,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
       {
         setState(() {
         verificationText = 'Email Successfully Verified';
-
-        timer?.cancel();
         });
+        timer?.cancel();
+        sendHomeTime = Timer.periodic(const Duration(seconds: 3), (timer) => sendToHome());
       }
+    }
+
+    void sendToHome()
+    {
+      Navigator.pushReplacementNamed(context, '/loading_home');
+      sendHomeTime?.cancel();
     }
 
     @override
@@ -64,19 +71,30 @@ class _VerificationScreenState extends State<VerificationScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            SizedBox(height: 50),
+            SizedBox(height: 80),
             Text('A verification email was sent to ${FirebaseAuth.instance.currentUser?.email}',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
-                fontSize: 20,
+                fontSize: 24,
               ),
               textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text('Please check your @uci.edu email for a link, hit the resend button if the email was not recieved',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
             SizedBox(height: 40),
             const Center(
               child: CircularProgressIndicator()
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             Padding(
                 padding: EdgeInsets
                     .symmetric(horizontal: 32.0),
@@ -87,6 +105,22 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                 ),
               ),
+            SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: ElevatedButton(
+                child: const Text('Resend'),
+                onPressed: () {
+                  try{
+                    FirebaseAuth.instance.currentUser?.sendEmailVerification();
+                  }
+                  catch (e)
+                  {
+                    debugPrint('$e');
+                  }
+                },
+              ),
+            ),
           ],
         )
       ),
