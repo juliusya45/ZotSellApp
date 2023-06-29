@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
+import 'package:zot_sell/screens/listing_screen.dart';
 
 /// The `Home` class is a `StatefulWidget` that displays a list of listings and provides a drawer with
 /// options for the user, such as signing out.
@@ -21,6 +22,8 @@ class _HomeState extends State<Home> {
   //defining database:
   final database = FirebaseFirestore.instance;
 
+  
+
   @override
   Widget build(BuildContext context) {
 
@@ -29,6 +32,18 @@ class _HomeState extends State<Home> {
 
     //accessing listings from allListings
     List<Listings> allListings = widget.allListings;
+
+
+    //method to go to a page with the listing displayed:
+    void viewListing(int index)
+    {
+      Navigator.push(
+        context, MaterialPageRoute(
+          settings: const RouteSettings(name: '/listing'),
+          builder: (context) => ListingScreen(listingItem: allListings[index])
+          )
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.grey[200],
       //added drawer to hold different buttons/actions
@@ -110,6 +125,7 @@ class _HomeState extends State<Home> {
                 child: ListTile(
                   onTap: () {
                     //method to view that listing;
+                    viewListing(index);
                   },
                   //Putting the title, descirption, and price of listings in a column
                   title: Column(
