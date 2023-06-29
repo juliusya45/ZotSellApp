@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 //using this as reference:
@@ -51,11 +52,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
     {
       super.initState();
       try {
-        print('sent');
+        if (kDebugMode) {
+          print('sent');
+        }
         FirebaseAuth.instance.currentUser?.sendEmailVerification();
         } on Exception catch (e) {
           // TODO
-          print(e);
+          if (kDebugMode) {
+            print(e);
+          }
         }
       timer = Timer.periodic(const Duration(seconds: 3), (timer) => checkEmailVerified());
     }

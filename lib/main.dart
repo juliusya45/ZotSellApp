@@ -4,7 +4,7 @@ import 'package:zot_sell/screens/authenticate/verification_page.dart';
 import 'package:zot_sell/screens/home/home.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 import 'firebase_options.dart';
-import 'initial_screen.dart';
+import 'screens/loading_screens/initial_screen.dart';
 
 /// The above code initializes Firebase and sets up the routes for different screens in a Flutter
 /// application.
