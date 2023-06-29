@@ -1,16 +1,17 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/screens/home/home.dart';
 
-class Loading_Home extends StatefulWidget {
-  const Loading_Home({super.key});
+class LoadingHome extends StatefulWidget {
+  const LoadingHome({super.key});
 
   @override
-  State<Loading_Home> createState() => _Loading_HomeState();
+  State<LoadingHome> createState() => _LoadingHomeState();
 }
 
 //going to be:
@@ -18,7 +19,7 @@ class Loading_Home extends StatefulWidget {
 //mapping each listing
 //putting each listing into a list
 //passing the list to home
-class _Loading_HomeState extends State<Loading_Home> {
+class _LoadingHomeState extends State<LoadingHome> {
 
   //defining database:
   final database = FirebaseFirestore.instance;
@@ -43,7 +44,9 @@ class _Loading_HomeState extends State<Loading_Home> {
         }
         else
         {
-          print('did not get data');
+          if (kDebugMode) {
+            print('did not get data');
+          }
         }
       }
       Navigator.pushReplacement(

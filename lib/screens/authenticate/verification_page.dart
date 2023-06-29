@@ -73,17 +73,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            SizedBox(height: 80),
+            const SizedBox(height: 80),
             Text('A verification email was sent to ${FirebaseAuth.instance.currentUser?.email}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 24,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
               child: Text('Please check your @uci.edu email for a link, hit the resend button if the email was not recieved',
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
@@ -92,13 +92,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             const Center(
               child: CircularProgressIndicator()
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Padding(
-                padding: EdgeInsets
+                padding: const EdgeInsets
                     .symmetric(horizontal: 32.0),
                 child: Center(
                   child: Text(
@@ -107,7 +107,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                 ),
               ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: ElevatedButton(

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
 import 'package:zot_sell/screens/authenticate/verification_page.dart';
@@ -19,24 +20,30 @@ class InitialScreen extends StatelessWidget {
           {
             if(FirebaseAuth.instance.currentUser!.emailVerified)
             {
-              print('to home screen');
+              if (kDebugMode) {
+                print('to home screen');
+              }
               //if the user successfully signed in we show a loading spinner and do everything else
-              return const Loading_Home();
+              return const LoadingHome();
             }
             //if the user has not been verified
             else
             {
               //else we send the user to the verification page to be verified
-              print('to verification page');
+              if (kDebugMode) {
+                print('to verification page');
+              }
               return const VerificationScreen();
             }
             //in the future a check to make sure a user isn't blacklisted should also occur, but for now that's not important to implement
           }
           else
           {
-            print('back to login');
+            if (kDebugMode) {
+              print('back to login');
+            }
             //auth page is another inbetween that switches between login and register page
-            return AuthPage();
+            return const AuthPage();
           }
         },
       ),

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -42,13 +43,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: _emailController.text.trim(), 
         password: _passwordController.text.trim()
         );
-        Navigator.pushReplacementNamed(context, '/verification');
+        if (context.mounted) Navigator.pushReplacementNamed(context, '/verification');
       }
       else
       {
         //here we can add/show a text widget above the email field of any errors
         //implement with try/catch block above?
-        print('Passwords do not match');
+        if (kDebugMode) {
+          print('Passwords do not match');
+        }
         setState(() {
         errorMsg = 'Passwords do not match';
       });

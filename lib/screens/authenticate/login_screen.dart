@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      Navigator.pushReplacementNamed(context, '/loading_home');
+      if (context.mounted) Navigator.pushReplacementNamed(context, '/loading_home');
     } 
     on Exception catch (e) 
     {
@@ -47,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   //helps with memory usage
   void dispose() {
-    // TODO: implement dispose
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();

@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                   PageRouteBuilder(pageBuilder: (BuildContext context, Animation animation,
                       Animation secondaryAnimation) {
                         //switch to Authpage?
-                    return AuthPage();
+                    return const AuthPage();
                   },
                   transitionsBuilder: (BuildContext context,
                       Animation<double> animation,
