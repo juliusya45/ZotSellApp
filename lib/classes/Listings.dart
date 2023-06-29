@@ -60,26 +60,27 @@ class Listings
     final data = snapshot.data();
 
     //Turns the timestamp object stored in Firebase into a readable date and time
+    //doc: https://pub.dev/documentation/intl/latest/intl/DateFormat-class.html
     String date = DateFormat("MMM d, y  h:mm a").format(data!['time'].toDate());
     //we don't know docId so leaving blank for now
     return Listings(
     docId: '', 
     time: date, 
-    description: data?['description'], 
-    imgUrl: data?['imgUrl'], 
-    isAcceptable: data?['isAcceptable'], 
-    isAthletics: data?['isAthletics'], 
-    isClothing: data?['isClothing'], 
-    isElectronics: data?['isElectronics'], 
-    isGood: data?['isGood'], 
-    isJewelry: data?['isJewelry'], 
-    isNew: data?['isNew'], 
-    isShoes: data?['isShoes'], 
-    itemTitle: data?['itemTitle'], 
-    meetingSpot: data?['meetingSpot'], 
-    phoneNum: data?['phoneNum'], 
-    price: data?['price'], 
-    quantity: data?['quantity']);
+    description: data['description'], 
+    imgUrl: data['imgUrl'], 
+    isAcceptable: data['isAcceptable'], 
+    isAthletics: data['isAthletics'], 
+    isClothing: data['isClothing'], 
+    isElectronics: data['isElectronics'], 
+    isGood: data['isGood'], 
+    isJewelry: data['isJewelry'], 
+    isNew: data['isNew'], 
+    isShoes: data['isShoes'], 
+    itemTitle: data['itemTitle'], 
+    meetingSpot: data['meetingSpot'], 
+    phoneNum: data['phoneNum'], 
+    price: data['price'], 
+    quantity: data['quantity']);
   }
 
   //method to turn a listing into FireStore data

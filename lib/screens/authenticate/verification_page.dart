@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:rive/rive.dart';
 
 //using this as reference:
 //https://medium.flutterdevs.com/email-verification-with-flutter-firebase-e127aad393c3
@@ -20,9 +23,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   //boolean that determines whether or not email was verified
     bool isEmailVerified = false;
+    bool checked = false;
     Timer? timer;
     Timer? sendHomeTime;
     String verificationText = 'Waiting for Verification...';
+    String animation = 'Loading';
+
+    dynamic indicator = SpinKitRing(color: Color(0xffe3e8ed));
+
 
     checkEmailVerified() async
     {
@@ -31,13 +39,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
         isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
       });
 
+      
+      /// The code block is checking if the email is successfully verified. If it is, it updates the
+      /// `verificationText` variable to display the message "Email Successfully Verified". It also
+      /// cancels the timer that checks for email verification and starts a new timer that navigates to
+      /// the home screen after 3 seconds.
       if(isEmailVerified)
       {
         setState(() {
         verificationText = 'Email Successfully Verified';
+        animation = 'Success';
         });
         timer?.cancel();
-        sendHomeTime = Timer.periodic(const Duration(seconds: 3), (timer) => sendToHome());
+        sendHomeTime = Timer.periodic(const Duration(seconds: 2), (timer) => sendToHome());
       }
     }
 
@@ -98,8 +112,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            const Center(
-              child: CircularProgressIndicator()
+            Center(
+              child: SizedBox(
+                height: 50,
+                width: 50,
+                child: RiveAnimation.asset('assets/loading.riv',
+                animations: [animation],)
+              )
             ),
             const SizedBox(height: 40),
             Padding(

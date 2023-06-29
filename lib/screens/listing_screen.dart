@@ -30,7 +30,13 @@ class _ListingScreenState extends State<ListingScreen> {
       ),
       body: Column(
         children: [
-          Text('Posted On: ${listingItem.time}'),
+          Row(
+            children: [
+              Text('Posted On:',
+                style: TextStyle(),
+              ),
+            ],
+          ),
           SizedBox(height: 25),
           Center(
             child: Container(
