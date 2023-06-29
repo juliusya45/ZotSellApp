@@ -59,7 +59,8 @@ class Listings
   {
     final data = snapshot.data();
 
-    String date = DateFormat("MMMM d, y  h:mm a").format(data!['time'].toDate());
+    //Turns the timestamp object stored in Firebase into a readable date and time
+    String date = DateFormat("MMM d, y  h:mm a").format(data!['time'].toDate());
     //we don't know docId so leaving blank for now
     return Listings(
     docId: '', 
