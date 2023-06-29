@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
-import 'package:zot_sell/screens/authenticate/login_screen.dart';
 
+/// The `Home` class is a `StatefulWidget` that displays a list of listings and provides a drawer with
+/// options for the user, such as signing out.
 class Home extends StatefulWidget {
   const Home({super.key, required this.allListings});
 

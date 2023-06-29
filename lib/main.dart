@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:zot_sell/screens/authenticate/login_screen.dart';
 import 'package:zot_sell/screens/authenticate/verification_page.dart';
 import 'package:zot_sell/screens/home/home.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 import 'firebase_options.dart';
 import 'initial_screen.dart';
 
+/// The above code initializes Firebase and sets up the routes for different screens in a Flutter
+/// application.
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 //using this as reference:
 //https://medium.flutterdevs.com/email-verification-with-flutter-firebase-e127aad393c3
 
+/// The `VerificationScreen` class is a StatefulWidget that displays a verification screen with a
+/// message, loading indicator, and a button to resend the verification email.
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
 
