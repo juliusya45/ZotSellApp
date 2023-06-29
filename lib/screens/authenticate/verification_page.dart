@@ -112,6 +112,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
               child: SizedBox(
                 height: 110,
                 width: 110,
+                //animation editor: https://editor.rive.app/file/loading/477204
+                //docs: https://help.rive.app/runtimes/playback
                 child: RiveAnimation.asset('assets/loading.riv',
                 animations: [animation],)
               )
