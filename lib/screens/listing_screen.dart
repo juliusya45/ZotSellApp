@@ -30,22 +30,33 @@ class _ListingScreenState extends State<ListingScreen> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 20),
+          Text('Posted On: ${listingItem.time}'),
+          SizedBox(height: 25),
           Center(
-            child: Card(
-                child: SizedBox(
-                  height: 250,
-                  width: 380,
-                  child: CachedNetworkImage(
-                    imageUrl: listingItem.imgUrl,
-                    progressIndicatorBuilder: (context, url, downloadProgress) => 
-                        CircularProgressIndicator(value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
+            child: Container(
+              height: 250,
+              width: 380,
+              child: Card(
+                elevation: 4,
+                child: CachedNetworkImage(
+                  imageUrl: listingItem.imgUrl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => 
+                      CircularProgressIndicator(value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
                   ),
-              ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+                  )
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 0.1),
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                  
+                  )
+                ),
+                ),
               //shape: add in details here to make a border
-            ),
-          )
         ],
       ),
     );

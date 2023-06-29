@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
     //random Listings object to pass into a constructor
     Listings blank = Listings(
       docId: 'docId', 
-      datePosted: 'datePosted', 
+      time: 'time', 
       description: 'description', 
       imgUrl: 'imgUrl', 
       isAcceptable: false, 

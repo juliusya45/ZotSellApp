@@ -3,11 +3,12 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class Listings
 {
   late String docId;
-  late String datePosted;
+  late String time;
   late String description;
   late String imgUrl;
     //tags for each listing. Maybe there's a better way to do this??
@@ -32,7 +33,7 @@ class Listings
   //constructor for the class. Requires all of the attributes stored in the listing db
   Listings({
     required this.docId,
-    required this.datePosted,
+    required this.time,
     required this.description,
     required this.imgUrl,
     required this.isAcceptable,
@@ -57,10 +58,12 @@ class Listings
   factory Listings.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options,)
   {
     final data = snapshot.data();
+
+    String date = DateFormat("MMMM d, y  h:mm a").format(data!['time'].toDate());
     //we don't know docId so leaving blank for now
     return Listings(
     docId: '', 
-    datePosted: data?['datePosted'], 
+    time: date, 
     description: data?['description'], 
     imgUrl: data?['imgUrl'], 
     isAcceptable: data?['isAcceptable'], 
@@ -84,7 +87,7 @@ class Listings
   Map<String, dynamic> toFirestore()
   {
     return {
-      if (datePosted != null) 'datePosted' : datePosted,
+      if (time != null) 'time' : time,
       if (description != null) 'description' : description,
       if (imgUrl != null) 'imgUrl' : imgUrl,
       if (isAcceptable != null) 'isAcceptable' : isAcceptable,
