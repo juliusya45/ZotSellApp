@@ -104,7 +104,10 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.green[300],
         title: const Text(
           'Listings',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 28,
+            ),
         ),
         centerTitle: true,
       ),
