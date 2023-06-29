@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rive/rive.dart';
 
 //using this as reference:
@@ -28,8 +26,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
     Timer? sendHomeTime;
     String verificationText = 'Waiting for Verification...';
     String animation = 'Loading';
-
-    dynamic indicator = SpinKitRing(color: Color(0xffe3e8ed));
 
 
     checkEmailVerified() async
@@ -114,8 +110,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
             const SizedBox(height: 40),
             Center(
               child: SizedBox(
-                height: 50,
-                width: 50,
+                height: 110,
+                width: 110,
                 child: RiveAnimation.asset('assets/loading.riv',
                 animations: [animation],)
               )

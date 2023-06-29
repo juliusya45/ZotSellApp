@@ -19,7 +19,7 @@ class _ListingScreenState extends State<ListingScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(listingItem.itemTitle,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Colors.white
@@ -32,34 +32,35 @@ class _ListingScreenState extends State<ListingScreen> {
         children: [
           Row(
             children: [
-              Text('Posted On:',
+              const Text('Posted On:',
                 style: TextStyle(),
               ),
+              Text(listingItem.time)
             ],
           ),
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           Center(
             child: Container(
               height: 250,
               width: 380,
-              child: Card(
-                elevation: 4,
-                child: CachedNetworkImage(
-                  imageUrl: listingItem.imgUrl,
-                  progressIndicatorBuilder: (context, url, downloadProgress) => 
-                      CircularProgressIndicator(value: downloadProgress.progress),
-                  errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
-                  ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-                  )
-                ),
                 decoration: BoxDecoration(
                   border: Border.all(width: 0.1),
                   color: Colors.blueGrey,
                   borderRadius: BorderRadius.circular(10),
                   
+                  ),
+              child: Card(
+                elevation: 4,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                child: CachedNetworkImage(
+                  imageUrl: listingItem.imgUrl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => 
+                      CircularProgressIndicator(value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
                   )
+                )
                 ),
                 ),
               //shape: add in details here to make a border
