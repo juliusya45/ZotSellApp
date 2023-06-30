@@ -35,6 +35,9 @@ flutter:
           weight: 500
         - asset: assets/fonts/Inter-Light.ttf
           weight: 300
+    - family: MyFlutterApp
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
   assets:
     - assets/images/
     - assets/loading.riv

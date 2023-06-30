@@ -11,59 +11,110 @@ class ListingScreen extends StatefulWidget {
 }
 
 class _ListingScreenState extends State<ListingScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     Listings listingItem = widget.listingItem;
     return Scaffold(
       appBar: AppBar(
-        title: Text(listingItem.itemTitle,
+        title: Text(
+          listingItem.itemTitle,
           style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.white
-          ),
+              fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 221, 158, 64),
         centerTitle: true,
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              const Text('Posted On:',
-                style: TextStyle(),
-              ),
-              Text(listingItem.time)
-            ],
-          ),
           const SizedBox(height: 25),
           Center(
             child: Container(
-              height: 250,
-              width: 380,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.1),
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.circular(10),
-                  
-                  ),
-              child: Card(
-                elevation: 4,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-                  ),
-                child: CachedNetworkImage(
-                  imageUrl: listingItem.imgUrl,
-                  progressIndicatorBuilder: (context, url, downloadProgress) => 
-                      CircularProgressIndicator(value: downloadProgress.progress),
-                  errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
-                  )
-                )
+                height: 250,
+                width: 375,
+
+                child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.green[300]!, width: 3),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: CachedNetworkImage(
+                      imageUrl: listingItem.imgUrl,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/images/404.jpg'),
+                    ))),
+          ),
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                const Text(
+                  'Posted On: ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
+                Text(listingItem.time,
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 375,
+                  child: Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.green[300]!, width: 3),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Description:',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                            SizedBox(height: 10),
+                            Text(
+                              listingItem.description,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
+                      ))),
+            ),
+          ),
+          SizedBox(height: 10),
+          //Trying to add a row of tags with the tag name on them
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                Stack(
+                  alignment: Alignment(-0.5,0),
+                  children: <Widget>[
+                    Icon(
+                      IconData(0xe80c, fontFamily: 'MyFlutterApp', fontPackage: null),
+                      size: 80
+                    ),
+                    Text(
+                      "Play",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    ),
+                  ],
                 ),
-              //shape: add in details here to make a border
+              ],
+            ),
+          )
         ],
       ),
     );
