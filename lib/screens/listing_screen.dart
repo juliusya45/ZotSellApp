@@ -54,7 +54,7 @@ class _ListingScreenState extends State<ListingScreen> {
               children: [
                 const Text(
                   'Posted On: ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 Text(listingItem.time,
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
@@ -99,19 +99,7 @@ class _ListingScreenState extends State<ListingScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               children: [
-                Stack(
-                  alignment: Alignment(-0.5,0),
-                  children: <Widget>[
-                    Icon(
-                      IconData(0xe80c, fontFamily: 'MyFlutterApp', fontPackage: null),
-                      size: 80
-                    ),
-                    Text(
-                      "Play",
-                      style: TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                  ],
-                ),
+                Chip(label: Text('test'))
               ],
             ),
           )
