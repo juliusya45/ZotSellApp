@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   {
     try 
     {
+      //only go to next page if all the checks pass
       if (passwordConfirmed() && userNameCheck() && emptyCheck())
       {
         setState(() {
@@ -48,28 +50,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: _emailController.text.trim(), 
         password: _passwordController.text.trim()
         );
-        //TODO: need to create a user object here that associates id with username
+        //TODO: need to create a user object here that associates id with username:
+        await addUserDetails(_userNameController.text, FirebaseAuth.instance.currentUser!.uid, _emailController.text.trim());
+        //pushes the next screen
         if (context.mounted) Navigator.pushReplacementNamed(context, '/verification');
       }
-      // else
-      // {
-      //   //here we can add/show a text widget above the email field of any errors
-      //   //implement with try/catch block above?
-      //   if (kDebugMode) {
-      //     print('Passwords do not match');
-      //   }
-      //   setState(() {
-      //   errorMsg = 'Passwords do not match';
-      // });
-      // }
     } 
     on Exception catch (e) 
     {
-      // setState(() {
-      //   String exceptionMsg = e.toString();
-      //   errorMsg = exceptionMsg.replaceAll(RegExp('\\[.*?\\]'), '');
-      // });
+      if (kDebugMode) {
+          print(e);
+        }
     }
+  }
+
+  //adds user data into a users collection
+  Future addUserDetails(String userName, String uid, String email) async
+  {
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'username' : userName,
+      'email' : email
+    });
   }
 
   bool passwordConfirmed()
