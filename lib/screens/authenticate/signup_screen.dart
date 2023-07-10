@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -15,12 +16,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _userNameController = TextEditingController();
 
   //string to force users to use uci email
   final String _userPostfix = '@uci.edu';
 
   //String that displays error messages
   String errorMsg = '';
+
+  //Profanity checker for username:
+  final filter = ProfanityFilter();
 
   @override
   void dispose()
@@ -34,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   {
     try 
     {
-      if (passwordConfirmed())
+      if (passwordConfirmed() && userNameCheck() && emptyCheck())
       {
         setState(() {
         errorMsg = '';
@@ -43,26 +48,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: _emailController.text.trim(), 
         password: _passwordController.text.trim()
         );
+        //TODO: need to create a user object here that associates id with username
         if (context.mounted) Navigator.pushReplacementNamed(context, '/verification');
       }
-      else
-      {
-        //here we can add/show a text widget above the email field of any errors
-        //implement with try/catch block above?
-        if (kDebugMode) {
-          print('Passwords do not match');
-        }
-        setState(() {
-        errorMsg = 'Passwords do not match';
-      });
-      }
+      // else
+      // {
+      //   //here we can add/show a text widget above the email field of any errors
+      //   //implement with try/catch block above?
+      //   if (kDebugMode) {
+      //     print('Passwords do not match');
+      //   }
+      //   setState(() {
+      //   errorMsg = 'Passwords do not match';
+      // });
+      // }
     } 
     on Exception catch (e) 
     {
-      setState(() {
-        String exceptionMsg = e.toString();
-        errorMsg = exceptionMsg.replaceAll(RegExp('\\[.*?\\]'), '');
-      });
+      // setState(() {
+      //   String exceptionMsg = e.toString();
+      //   errorMsg = exceptionMsg.replaceAll(RegExp('\\[.*?\\]'), '');
+      // });
     }
   }
 
@@ -70,11 +76,79 @@ class _SignUpScreenState extends State<SignUpScreen> {
   {
     if(_passwordController.text.trim() == _confirmPasswordController.text.trim())
     {
+
       return true;
+      
     }
     else
     {
+      if(_confirmPasswordController.text.trim().isNotEmpty)
+      {
+        setState(() {
+        errorMsg = 'Passwords do not match';
+      });
+      }
+      else
+      {
+        setState(() {
+          errorMsg = 'Please confirm your password';
+        });
+      }
       return false;
+    }
+  }
+
+  bool userNameCheck()
+  {
+    //if this statement returns true then there is profanity in the username
+    //This check only works if words are separated by a space in the string -> might need to implement another thing or just keep it
+    if(filter.hasProfanity(_userNameController.text.trim()))
+    {
+      if (kDebugMode) {
+          print('has profanity');
+        }
+      setState(() {
+        errorMsg = 'Your username contains profanity. Please change it';
+      });
+      return false;
+    }
+    else
+    {
+      if (kDebugMode) {
+          print('no profanity');
+        }
+      return true;
+    }
+  }
+
+  //checks that the user has filled out text fields
+  //returns false if any field is empty
+  bool emptyCheck()
+  {
+    if(_emailController.text.trim().isEmpty)
+    {
+      setState(() {
+        errorMsg = 'Please type in your email';
+      });
+      return false;
+    }
+    else if(_userNameController.text.trim().isEmpty)
+    {
+      setState(() {
+        errorMsg = 'Please type in a username';
+      });
+      return false;
+    }
+    else if(_passwordController.text.trim().isEmpty)
+    {
+      setState(() {
+        errorMsg = 'Please type in a password';
+      });
+      return false;
+    }
+    else
+    {
+      return true;
     }
   }
 
@@ -117,7 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               const SizedBox(height: 20),
           
-              //username/email textfield
+              //email textfield
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: TextField(
@@ -147,6 +221,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'Email@uci.edu',
+                    fillColor: Colors.grey[200],
+                    filled: true
+                  ),
+                  ),
+                ),
+              const SizedBox(height: 10),
+
+              //userName textfield
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: TextField(
+                  controller: _userNameController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Username',
                     fillColor: Colors.grey[200],
                     filled: true
                   ),
