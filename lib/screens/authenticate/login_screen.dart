@@ -37,6 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } 
     on Exception catch (e) 
     {
+      //the exceptionMsg should be shown to the user
+      //ex if the user tries to make an account that already exists
+      //or if the user's password is too short
       setState(() {
         String exceptionMsg = e.toString();
         errorMsg = exceptionMsg.replaceAll(RegExp('\\[.*?\\]'), '');
