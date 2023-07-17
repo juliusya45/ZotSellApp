@@ -78,13 +78,15 @@ class _LoadingHomeState extends State<LoadingHome> {
     getUserData();
     //there seems to be an error here where zotuser is not being updated correctly
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              settings: const RouteSettings(name: '/home'),
-              builder: (context) => Home(allListings: allListings, zotuser : sendZotuser),
-              ),
-          );
+      if (mounted) {
+  Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          settings: const RouteSettings(name: '/home'),
+          builder: (context) => Home(allListings: allListings, zotuser : sendZotuser),
+          ),
+      );
+}
     });
   }
 
