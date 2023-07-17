@@ -27,7 +27,7 @@ class _LoadingHomeState extends State<LoadingHome> {
   //defining database:
   final database = FirebaseFirestore.instance;
   List<Listings> allListings = [];
-  late Zotuser zotuser;
+  Zotuser sendZotuser = Zotuser(uid: '', email: '', username: '');
 
   void setupDatabase() async
   {
@@ -57,28 +57,35 @@ class _LoadingHomeState extends State<LoadingHome> {
 
   void getUserData() async
   {
-    final userRef = database.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).withConverter(
+    final docName = FirebaseAuth.instance.currentUser?.uid;
+    final userRef = database.collection('users').doc(docName).withConverter(
       fromFirestore: Zotuser.fromFirestore, 
       toFirestore: (Zotuser zotuser, _) => zotuser.toFirestore()
       );
 
     final docSnap = await userRef.get();
-    zotuser = docSnap.data()!;
+    sendZotuser = docSnap.data()!;
+    print('got zotuser');
+    //this prints out data from the db correctly
+    print(sendZotuser.username);
   }
 
   //function that runs before the object is created. But does not run everytime it is rebuilt
   @override
-  void initState() {
+  void initState(){
     super.initState();
     setupDatabase();
     getUserData();
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          settings: const RouteSettings(name: '/home'),
-          builder: (context) => Home(allListings: allListings, zotuser : zotuser),
-          ),
-      );
+    //there seems to be an error here where zotuser is not being updated correctly
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              settings: const RouteSettings(name: '/home'),
+              builder: (context) => Home(allListings: allListings, zotuser : sendZotuser),
+              ),
+          );
+    });
   }
 
 //did this wrong, this should be a loading page, first thing to pop up

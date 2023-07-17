@@ -7,8 +7,15 @@ import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 
 /// The InitialScreen class is a stateless widget that determines which screen to display based on the
 /// user's authentication state.
-class InitialScreen extends StatelessWidget {
+class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
+
+  @override
+  State<InitialScreen> createState() => _InitialScreenState();
+}
+
+class _InitialScreenState extends State<InitialScreen> {
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {

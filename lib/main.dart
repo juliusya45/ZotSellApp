@@ -24,6 +24,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     //random Listings object to pass into a constructor
     Listings blank = Listings(
       docId: 'docId', 
@@ -53,7 +54,7 @@ class MainApp extends StatelessWidget {
         //then go to the verification screen to get verified if the user has not been
         '/verification': (context) => const VerificationScreen(),
         //go to the loading screen to get all the listings from the db
-        '/loading_home': (context) => const LoadingHome(),
+        '/loading_home': (context) => LoadingHome(),
         //display all of the listings in the homepage
         '/home': (context) => Home(allListings: [], zotuser: Zotuser(email: '', uid: '', username: '')),
         //show each listing seperately
