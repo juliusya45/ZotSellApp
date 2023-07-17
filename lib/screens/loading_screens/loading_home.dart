@@ -1,10 +1,12 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:zot_sell/classes/listings.dart';
+import 'package:zot_sell/classes/zotuser.dart';
 import 'package:zot_sell/screens/home/home.dart';
 
 class LoadingHome extends StatefulWidget {
@@ -15,6 +17,7 @@ class LoadingHome extends StatefulWidget {
 }
 
 //going to be:
+//getting a Zotuser from data in the db
 //getting all listings from database
 //mapping each listing
 //putting each listing into a list
@@ -23,11 +26,11 @@ class _LoadingHomeState extends State<LoadingHome> {
 
   //defining database:
   final database = FirebaseFirestore.instance;
+  List<Listings> allListings = [];
+  late Zotuser zotuser;
 
   void setupDatabase() async
   {
-    List<Listings> allListings = [];
-
     //defining db reference:
     final ref = database.collection('listings').withConverter(
     fromFirestore:  Listings.fromFirestore,
@@ -49,14 +52,18 @@ class _LoadingHomeState extends State<LoadingHome> {
           }
         }
       }
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          settings: const RouteSettings(name: '/home'),
-          builder: (context) => Home(allListings: allListings)
-          ),
-      );
     });
+  }
+
+  void getUserData() async
+  {
+    final userRef = database.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).withConverter(
+      fromFirestore: Zotuser.fromFirestore, 
+      toFirestore: (Zotuser zotuser, _) => zotuser.toFirestore()
+      );
+
+    final docSnap = await userRef.get();
+    zotuser = docSnap.data()!;
   }
 
   //function that runs before the object is created. But does not run everytime it is rebuilt
@@ -64,6 +71,14 @@ class _LoadingHomeState extends State<LoadingHome> {
   void initState() {
     super.initState();
     setupDatabase();
+    getUserData();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          settings: const RouteSettings(name: '/home'),
+          builder: (context) => Home(allListings: allListings, zotuser : zotuser),
+          ),
+      );
   }
 
 //did this wrong, this should be a loading page, first thing to pop up

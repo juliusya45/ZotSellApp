@@ -5,6 +5,7 @@ import 'package:zot_sell/screens/authenticate/verification_page.dart';
 import 'package:zot_sell/screens/home/home.dart';
 import 'package:zot_sell/screens/listing_screen.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
+import 'classes/zotuser.dart';
 import 'firebase_options.dart';
 import 'screens/loading_screens/initial_screen.dart';
 
@@ -54,7 +55,7 @@ class MainApp extends StatelessWidget {
         //go to the loading screen to get all the listings from the db
         '/loading_home': (context) => const LoadingHome(),
         //display all of the listings in the homepage
-        '/home': (context) => const Home(allListings: [],),
+        '/home': (context) => Home(allListings: [], zotuser: Zotuser(email: '', uid: '', username: '')),
         //show each listing seperately
         '/listing': (context) => ListingScreen(listingItem: blank,)
       },
