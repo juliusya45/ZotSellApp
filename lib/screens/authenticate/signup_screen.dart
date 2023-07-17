@@ -56,10 +56,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (context.mounted) Navigator.pushReplacementNamed(context, '/verification');
       }
     } 
-    on Exception catch (e) 
+    on FirebaseAuthException catch (e) 
     {
       if (kDebugMode) {
           print(e);
+          setState(() {
+          errorMsg = e.message!;
+        });
         }
     }
   }
