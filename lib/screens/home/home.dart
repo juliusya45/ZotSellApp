@@ -30,11 +30,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
     //accessing Applistings from allListings
     List<AppListings> allListings = widget.allListings;
 
     //accessing zotuser from the zotuser passed in from the loading screen:
     Zotuser zotuser = widget.zotuser;
+    print(zotuser.username);
 
 
     //method to go to a page with the listing displayed:

@@ -15,6 +15,18 @@ class _ListingScreenState extends State<ListingScreen> {
   @override
   Widget build(BuildContext context) {
     AppListings listingItem = widget.listingItem;
+
+    List<Widget> createChips()
+    {
+      List<Widget> chips = [];
+      for(int i = 0; i < listingItem.tags.length; i++)
+      {
+        var chip = Chip(label: Text(listingItem.tags[i]));
+        chips.add(chip);
+      }
+      return chips;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -99,9 +111,7 @@ class _ListingScreenState extends State<ListingScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              children: [
-                Chip(label: Text('test'))
-              ],
+              children: createChips(),
             ),
           )
         ],

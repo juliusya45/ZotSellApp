@@ -30,10 +30,10 @@ class _LoadingHomeState extends State<LoadingHome> {
   //defining database:
   final database = FirebaseFirestore.instance;
   List<AppListings> allListings = [];
-  Zotuser sendZotuser = Zotuser(uid: '', email: '', username: '');
+  late Zotuser sendZotuser;
 
   //needed to change Listings to AppListings
-  void setupDatabase() async
+  Future<void> setup() async
   {
     //defining db reference:
     final ref = database.collection('appListings').withConverter(
@@ -57,9 +57,10 @@ class _LoadingHomeState extends State<LoadingHome> {
         }
       }
     });
+    await getUserData();
   }
 
-  void getUserData() async
+  Future<void> getUserData() async
   {
     final docName = FirebaseAuth.instance.currentUser?.uid;
     final userRef = database.collection('users').doc(docName).withConverter(
@@ -67,22 +68,22 @@ class _LoadingHomeState extends State<LoadingHome> {
       toFirestore: (Zotuser zotuser, _) => zotuser.toFirestore()
       );
 
-    final docSnap = await userRef.get();
-    sendZotuser = docSnap.data()!;
-    print('got zotuser');
-    //this prints out data from the db correctly
-    print(sendZotuser.username);
+    final docSnap = await userRef.get().then((value) {
+      sendZotuser = value.data()!;
+      print('got zotuser');
+      //this prints out data from the db correctly
+      print(sendZotuser.username);
+    });
+    
   }
 
   //function that runs before the object is created. But does not run everytime it is rebuilt
   @override
   void initState(){
     super.initState();
-    setupDatabase();
-    getUserData();
-    //there seems to be an error here where zotuser is not being updated correctly
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
+    setup().then((result) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (sendZotuser != null) {
   Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -92,6 +93,9 @@ class _LoadingHomeState extends State<LoadingHome> {
       );
 }
     });
+    });
+    //there seems to be an error here where zotuser is not being updated correctly
+    
   }
 
 //did this wrong, this should be a loading page, first thing to pop up
