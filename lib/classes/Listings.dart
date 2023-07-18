@@ -1,4 +1,5 @@
 //specifies what a Listing is. Modeled after what is stored in our db
+//NOTE: AppListings is the updated class that is modeled after a reworked version in the db
 
 // ignore_for_file: unnecessary_null_comparison
 
