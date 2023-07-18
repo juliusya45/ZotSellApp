@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/listings.dart';
 
 class ListingScreen extends StatefulWidget {
-  final Listings listingItem;
+  final AppListings listingItem;
   const ListingScreen({super.key, required this.listingItem});
 
   @override
@@ -13,7 +14,7 @@ class ListingScreen extends StatefulWidget {
 class _ListingScreenState extends State<ListingScreen> {
   @override
   Widget build(BuildContext context) {
-    Listings listingItem = widget.listingItem;
+    AppListings listingItem = widget.listingItem;
     return Scaffold(
       appBar: AppBar(
         title: Text(

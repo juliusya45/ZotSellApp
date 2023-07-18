@@ -10,8 +10,9 @@ class AppListings
   late List tags;
   late String itemTitle;
   late String meetingSpot;
-  late double price; //price can have decimals
-  late int quantity; //quanities should be whole numbers
+  //TODO: It would make sense for these variables to be numbers, but console complains that int is not a subtype of double. Is firebase storing a number as an int? not a double?
+  late String price;
+  late String quantity;
   late String user; //this will hold the uid associated with the item
 
   //time is a timestamp that can be used to get posting date & time

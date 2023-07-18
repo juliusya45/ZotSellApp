@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
 import 'package:zot_sell/screens/home/home.dart';
@@ -22,28 +23,31 @@ class LoadingHome extends StatefulWidget {
 //mapping each listing
 //putting each listing into a list
 //passing the list to home
+
+//7-18 changing the Listing objects to AppListing objects
 class _LoadingHomeState extends State<LoadingHome> {
 
   //defining database:
   final database = FirebaseFirestore.instance;
-  List<Listings> allListings = [];
+  List<AppListings> allListings = [];
   Zotuser sendZotuser = Zotuser(uid: '', email: '', username: '');
 
+  //needed to change Listings to AppListings
   void setupDatabase() async
   {
     //defining db reference:
-    final ref = database.collection('listings').withConverter(
-    fromFirestore:  Listings.fromFirestore,
-    toFirestore: (Listings listing, _) => listing.toFirestore(),
+    final ref = database.collection('appListings').withConverter(
+    fromFirestore:  AppListings.fromFirestore,
+    toFirestore: (AppListings appListings, _) => appListings.toFirestore(),
     );
     
     await ref.get().then((event) {
       for (var doc in event.docs) {
-        final listing = doc.data(); //Converts each listing into a Listings obj.
-        if(listing != null)
+        final appListings = doc.data(); //Converts each listing into a Listings obj.
+        if(appListings != null)
         {
-          listing.docId = doc.id; //setting the docId attribute that was left blank
-          allListings.add(listing); //adds each listing into a list of Listings
+          appListings.docId = doc.id; //setting the docId attribute that was left blank
+          allListings.add(appListings); //adds each listing into a list of Listings
         }
         else
         {

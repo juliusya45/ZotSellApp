@@ -6,15 +6,16 @@ import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
 import 'package:zot_sell/screens/listing_screen.dart';
 
+import '../../classes/app_listings.dart';
 import '../../classes/zotuser.dart';
 
-/// The `Home` class is a `StatefulWidget` that displays a list of listings and provides a drawer with
+/// The `Home` class is a `StatefulWidget` that displays a list of Applistings and provides a drawer with
 /// options for the user, such as signing out.
 class Home extends StatefulWidget {
   const Home({super.key, required this.allListings, required this.zotuser});
 
-  //Declaring a list that holds all of the Listings
-  final List<Listings> allListings;
+  //Declaring a list that holds all of the AppListings
+  final List<AppListings> allListings;
   final Zotuser zotuser;
 
   @override
@@ -29,8 +30,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    //accessing listings from allListings
-    List<Listings> allListings = widget.allListings;
+    //accessing Applistings from allListings
+    List<AppListings> allListings = widget.allListings;
 
     //accessing zotuser from the zotuser passed in from the loading screen:
     Zotuser zotuser = widget.zotuser;

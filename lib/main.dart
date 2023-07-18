@@ -5,6 +5,7 @@ import 'package:zot_sell/screens/authenticate/verification_page.dart';
 import 'package:zot_sell/screens/home/home.dart';
 import 'package:zot_sell/screens/listing_screen.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
+import 'classes/app_listings.dart';
 import 'classes/zotuser.dart';
 import 'firebase_options.dart';
 import 'screens/loading_screens/initial_screen.dart';
@@ -26,24 +27,17 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     //random Listings object to pass into a constructor
-    Listings blank = Listings(
+    AppListings blank = AppListings(
       docId: 'docId', 
       time: 'time', 
       description: 'description', 
       imgUrl: 'imgUrl', 
-      isAcceptable: false, 
-      isAthletics: false, 
-      isClothing: false, 
-      isElectronics: false, 
-      isGood: false, 
-      isJewelry: false, 
-      isNew: false, 
-      isShoes: false, 
+      tags: [],
       itemTitle: 'itemTitle', 
       meetingSpot: 'meetingSpot', 
-      phoneNum: 'phoneNum', 
-      price: 'price', 
-      quantity: 'quantity');
+      price: '0', 
+      quantity: '0',
+      user: 'uid');
 
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Inter'),
