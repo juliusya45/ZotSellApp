@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:zot_sell/classes/app_listings.dart';
-import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
 import 'package:zot_sell/screens/home/home.dart';
 
@@ -68,7 +67,7 @@ class _LoadingHomeState extends State<LoadingHome> {
       toFirestore: (Zotuser zotuser, _) => zotuser.toFirestore()
       );
 
-    final docSnap = await userRef.get().then((value) {
+    await userRef.get().then((value) {
       sendZotuser = value.data()!;
       print('got zotuser');
       //this prints out data from the db correctly

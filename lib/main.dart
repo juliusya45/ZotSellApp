@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/screens/authenticate/verification_page.dart';
 import 'package:zot_sell/screens/home/home.dart';
 import 'package:zot_sell/screens/listing_screen.dart';
@@ -52,7 +51,7 @@ class MainApp extends StatelessWidget {
         //display all of the listings in the homepage
         '/home': (context) => Home(allListings: [], zotuser: Zotuser(email: '', uid: '', username: '')),
         //show each listing seperately
-        '/listing': (context) => ListingScreen(listingItem: blank,)
+        '/listing': (context) => ListingScreen(listingItem: blank, zotuser: Zotuser(email: '', uid: '', username: ''))
       },
     );
   }

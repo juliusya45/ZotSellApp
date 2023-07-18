@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zot_sell/classes/app_listings.dart';
-import 'package:zot_sell/classes/listings.dart';
+import 'package:zot_sell/classes/zotuser.dart';
 
 class ListingScreen extends StatefulWidget {
   final AppListings listingItem;
-  const ListingScreen({super.key, required this.listingItem});
+  final Zotuser zotuser;
+  const ListingScreen({super.key, required this.listingItem, required this.zotuser});
 
   @override
   State<ListingScreen> createState() => _ListingScreenState();
@@ -15,6 +16,7 @@ class _ListingScreenState extends State<ListingScreen> {
   @override
   Widget build(BuildContext context) {
     AppListings listingItem = widget.listingItem;
+    Zotuser zotuser = widget.zotuser;
 
     List<Widget> createChips()
     {
@@ -23,6 +25,7 @@ class _ListingScreenState extends State<ListingScreen> {
       {
         var chip = Chip(label: Text(listingItem.tags[i]));
         chips.add(chip);
+        chips.add(SizedBox(width: 5));
       }
       return chips;
     }
@@ -61,22 +64,42 @@ class _ListingScreenState extends State<ListingScreen> {
                     ))),
           ),
           SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                const Text(
-                  'Posted On: ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(listingItem.time,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-              ],
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  const Text(
+                    'Posted On: ',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  Text(listingItem.time,
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                ],
+              ),
             ),
           ),
           SizedBox(
             height: 10,
           ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  const Text(
+                    'Posted By: ',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  Text(zotuser.username,
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -100,20 +123,36 @@ class _ListingScreenState extends State<ListingScreen> {
                               listingItem.description,
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w500),
-                            )
+                            ),
+                            SizedBox(height: 10,),
+                            Text('Meeting Spot:',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                            SizedBox(height: 10),
+                            Text(
+                              listingItem.meetingSpot,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(height: 10),
+                            Text('Tags:',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                            //Trying to add a row of tags with the tag name on them
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 0),
+                              child: Row(
+                                children: createChips(),
+                              ),
+                            ),
                           ],
                         ),
                       ))),
             ),
           ),
           SizedBox(height: 10),
-          //Trying to add a row of tags with the tag name on them
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: createChips(),
-            ),
-          )
+          //TODO: add price and quantity underneath the description
+          
         ],
       ),
     );
