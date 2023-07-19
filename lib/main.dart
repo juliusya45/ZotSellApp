@@ -47,9 +47,9 @@ class MainApp extends StatelessWidget {
         //then go to the verification screen to get verified if the user has not been
         '/verification': (context) => const VerificationScreen(),
         //go to the loading screen to get all the listings from the db
-        '/loading_home': (context) => LoadingHome(),
+        '/loading_home': (context) => const LoadingHome(),
         //display all of the listings in the homepage
-        '/home': (context) => Home(allListings: [], zotuser: Zotuser(email: '', uid: '', username: '')),
+        '/home': (context) => Home(allListings: const [], zotuser: Zotuser(email: '', uid: '', username: '')),
         //show each listing seperately
         '/listing': (context) => ListingScreen(listingItem: blank, zotuser: Zotuser(email: '', uid: '', username: ''))
       },
