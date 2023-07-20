@@ -29,8 +29,44 @@ String errorMsg = '';
           ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Text('hi'),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 15),
+              const Text(
+                'Enter a Listing Title:',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold
+                  )
+                ),
+                SizedBox(height: 7),
+                Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: _itemTitleController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.blueGrey),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Listing Title',
+                    fillColor: Colors.grey[200],
+                    filled: true
+                  ),
+                  ),
+                ),
+            ]
+            ),
+        ),
       ),
     );
   }
