@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:zot_sell/screens/add_listing.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
 import 'package:zot_sell/screens/listing_screen.dart';
 
@@ -118,6 +119,15 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //what to do after button is pressed
+          //going to AddListing screen when it is pressed
+          //need to use Navigator pushreplace here:
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            Navigator.push(context,
+              MaterialPageRoute(
+                settings: const RouteSettings(name: '/add_listing'),
+                builder: (context) => AddListing())
+            );
+          });
         },
         backgroundColor: Colors.blue[300],
         child: const Icon(Icons.add),
