@@ -38,6 +38,18 @@ class _HomeState extends State<Home> {
     Zotuser zotuser = widget.zotuser;
     print(zotuser.username);
 
+    List<Widget> createChips(AppListings listingItem)
+    {
+      List<Widget> chips = [];
+      for(int i = 0; i < 3; i++)
+      {
+        var chip = Chip(label: Text(listingItem.tags[i]));
+        chips.add(chip);
+        chips.add(const SizedBox(width: 5));
+      }
+      return chips;
+    }
+
 
     //method to go to a page with the listing displayed:
     void viewListing(int index)
@@ -167,6 +179,15 @@ class _HomeState extends State<Home> {
                       Text(
                         'Price: \$${allListings[index].price}',
                         style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 10),
+                      //TODO: NEED TO FIX CHIP OVERFLOW
+                      //Plan is to try and move the chips over all the way to the left of the card, but not too sure
+                      //how to do that/what widget isn't allowing me to do that
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: createChips(allListings[index]),
                       )
                     ],
                   ),

@@ -40,7 +40,7 @@ class MainApp extends StatelessWidget {
       user: 'uid');
 
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'Inter'),
+      theme: ThemeData(fontFamily: 'Inter',),
       initialRoute: '/',
       routes: {
         //now goes to initialscreen and this checks to see if a user was logged in or not
