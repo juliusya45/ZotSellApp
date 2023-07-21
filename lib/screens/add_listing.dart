@@ -37,7 +37,6 @@ Future getImage(ImageSource media) async {
   }
 
 //popup dialog
-//TODO: This method doesn't work. Not launching files app
 void myAlert() {
     showDialog(
         context: context,
@@ -54,7 +53,7 @@ void myAlert() {
                     //if user click this button, user can upload image from gallery
                     onPressed: () {
                       Navigator.pop(context);
-                      picker.pickImage(source: ImageSource.gallery);
+                      getImage(ImageSource.gallery);
                     },
                     child: Row(
                       children: [
@@ -67,7 +66,7 @@ void myAlert() {
                     //if user click this button. user can upload image from camera
                     onPressed: () {
                       Navigator.pop(context);
-                      picker.pickImage(source: ImageSource.camera);
+                      getImage(ImageSource.camera);
                     },
                     child: Row(
                       children: [
