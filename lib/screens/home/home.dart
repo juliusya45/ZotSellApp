@@ -7,6 +7,7 @@ import 'package:zot_sell/screens/authenticate/auth_page.dart';
 import 'package:zot_sell/screens/listing_screen.dart';
 
 import '../../classes/app_listings.dart';
+import '../../classes/home_listing_card.dart';
 import '../../classes/zotuser.dart';
 
 /// The `Home` class is a `StatefulWidget` that displays a list of Applistings and provides a drawer with
@@ -151,62 +152,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
               child: Card(
                 elevation: 3,
-                child: ListTile(
-                  onTap: () {
-                    //method to view that listing;
-                    viewListing(index);
-                  },
-                  //Putting the title, descirption, and price of listings in a column
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //Listing title
-                      Text(
-                        allListings[index].itemTitle,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      //spacer
-                      const SizedBox(height: 15),
-                      //Listing description
-                      Text(allListings[index].description),
-                      //spacer
-                      const SizedBox(height: 10),
-                      //Listing price
-                      Text(
-                        'Price: \$${allListings[index].price}',
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(height: 10),
-                      //TODO: NEED TO FIX CHIP OVERFLOW
-                      //Plan is to try and move the chips over all the way to the left of the card, but not too sure
-                      //how to do that/what widget isn't allowing me to do that
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: createChips(allListings[index]),
-                      )
-                    ],
-                  ),
-                  //Avatar that shows picture of the item
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: SizedBox(
-                      height: 70,
-                      width: 70,
-                      //Shows an image based on the link of the image
-                      child: CachedNetworkImage(
-                        imageUrl: allListings[index].imgUrl,
-                        progressIndicatorBuilder: (context, url, downloadProgress) => 
-                            CircularProgressIndicator(value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
-                      )
-                    ),
-                  ),
-                ),
+                child: HomeListingCard(listingItem: allListings[index],)
               ),
             );
           }),
