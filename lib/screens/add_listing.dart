@@ -160,6 +160,9 @@ void myAlert() {
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                 //Should be more like a paragraph text input box
                 child: TextField(
+                  maxLines: null,
+                  minLines: 2,
+                  keyboardType: TextInputType.multiline,
                   textAlign: TextAlign.left,
                   controller: _itemDescriptionController,
                   decoration: InputDecoration(
@@ -189,6 +192,7 @@ void myAlert() {
                 Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   textAlign: TextAlign.left,
                   controller: _itemPriceController,
                   decoration: InputDecoration(
@@ -218,6 +222,7 @@ void myAlert() {
                 Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   textAlign: TextAlign.left,
                   controller: _itemQuantityController,
                   decoration: InputDecoration(
@@ -235,6 +240,17 @@ void myAlert() {
                   ),
                   ),
                 ),
+                SizedBox(height: 20),
+                Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                  onPressed: (){},
+                  child: Text(
+                    'Preview Listing',
+                    style: TextStyle(fontSize: 20
+                    )
+                    ))),
+                
             ]
             ),
         ),
