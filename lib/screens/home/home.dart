@@ -152,7 +152,12 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
               child: Card(
                 elevation: 3,
-                child: HomeListingCard(listingItem: allListings[index],)
+                child: InkWell(
+                  onTap: () {
+                    viewListing(index);
+                  },
+                  child: HomeListingCard(listingItem: allListings[index],)
+                  ),
               ),
             );
           }),

@@ -28,44 +28,67 @@ class HomeListingCard extends StatelessWidget {
     }
 
     return Container(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child:
-                  ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: SizedBox(
-                          height: 70,
-                          width: 70,
-                          //Shows an image based on the link of the image passed into this class
-                          child: CachedNetworkImage(
-                            imageUrl: listingItem.imgUrl,
-                            progressIndicatorBuilder: (context, url, downloadProgress) => 
-                                CircularProgressIndicator(value: downloadProgress.progress),
-                            errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
-                          )
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child:
+                    ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: SizedBox(
+                            height: 90,
+                            width: 90,
+                            //Shows an image based on the link of the image passed into this class
+                            child: CachedNetworkImage(
+                              imageUrl: listingItem.imgUrl,
+                              progressIndicatorBuilder: (context, url, downloadProgress) => 
+                                  CircularProgressIndicator(value: downloadProgress.progress),
+                              errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
+                            )
+                          ),
+                    ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    children: [
+                      Text(
+                        listingItem.itemTitle,
+                        style: TextStyle(
+                          fontSize: 22,
+                        fontWeight: FontWeight.bold
                         ),
-                  ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Column(
-                  children: [
-                    Text(listingItem.itemTitle),
-                    SizedBox(height: 10),
-                    Text(listingItem.description),
-                  ],
-                )
-                )
-            ],
-          ),
-          Row(
-            children: createChips(listingItem),
-          )
-        ],
+                        ),
+                      SizedBox(height: 10),
+                      Text(
+                        listingItem.description,
+                        style: TextStyle(
+                          fontSize: 14
+                        ),
+                        ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Price: \$${listingItem.price}",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500
+                          ),
+                        )
+                    ],
+                  )
+                  )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: createChips(listingItem),
+            )
+          ],
+        ),
       ),
     );
   }
