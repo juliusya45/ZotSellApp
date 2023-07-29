@@ -38,12 +38,15 @@ void selectMultiImg() async{
     var pickedfiles = await picker.pickMultiImage();
     //you can use ImageCourse.camera for Camera capture
     // ignore: unnecessary_null_comparison
-    if(pickedfiles != null){
+    if(imageFiles!.length < 3){
         imageFiles = pickedfiles;
         setState(() {
+          errorMsg = '';
         });
     }else{
-        print("No image is selected.");
+      setState(() {
+        errorMsg = 'Max # of images selected already';
+      });
     }
   }catch (e) {
       print("error while picking file.");
@@ -52,12 +55,19 @@ void selectMultiImg() async{
 
 //Function to choose an image from camera or gallery
 Future getImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
-
+  var img = await picker.pickImage(source: media);
+  
+  if (imageFiles!.length < 3) {
     setState(() {
-      image = img;
+      imageFiles?.add(img!);
     });
   }
+  else{
+    setState(() {
+      errorMsg = 'Max # of images selected already';
+    });
+  }
+}
 
 //Function to select multiple images:
 
@@ -166,27 +176,39 @@ void myAlert() {
                   fontWeight: FontWeight.bold
                   )
                 ),
+                SizedBox(height: 5),
+                Text('Please select up to 3 images of the item you are listing'),
                 //TODO: Add image uploading under here:
                 ElevatedButton(
                   onPressed: (){
                     myAlert();
                   }, 
-                  child: Text('Choose an Image')),
+                  child: Text('Choose Image(s)')),
                 //TODO: Show selected images below:
                  imageFiles != null?Wrap(
                      children: imageFiles!.map((imageone){
-                        return Container(
-                           child:Card( 
+                        return Stack(
+                           children:[Card( 
                               child: Container(
                                  height: 100, width:100,
                                  child: Image.file(File(imageone.path)),
                               ),
-                           )
+                           ),
+                           //add button here for user to press to delete selected image
+                           Icon(Icons.exit_to_app)
+                           ]
                         );
                      }).toList(),
                   ):Text(
-                    "No Image",
+                    "No Image Selected Yet",
                     style: TextStyle(fontSize: 20),
+                  ),
+                //error text
+                Text(
+                  errorMsg,
+                  style: TextStyle(
+                    color: Colors.red
+                  )
                   ),
                 SizedBox(height: 10),
                 const Text(
