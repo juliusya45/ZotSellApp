@@ -25,7 +25,7 @@ String errorMsg = '';
 XFile? image;
 
 //XFile list to store multiple images:
-List<XFile>? imageFiles;
+List<XFile> imageFiles = [];
 
 //All Image related methods from https://www.porkaone.com/2022/07/how-to-upload-images-and-display-them.html
 //ImagePicker to choose images
@@ -38,10 +38,24 @@ void selectMultiImg() async{
     var pickedfiles = await picker.pickMultiImage();
     //you can use ImageCourse.camera for Camera capture
     // ignore: unnecessary_null_comparison
-        imageFiles = pickedfiles;
-        setState(() {
+    if (imageFiles.length < 3) {
+      setState(() {
+        //while the # of images in the list is less than 3
+        while (imageFiles.length < 3) {
+          //keep adding to the list
+          for (var picked in pickedfiles) {
+              imageFiles.add(picked);
+            }
           errorMsg = '';
-        });
+        }
+      });
+    }
+    else{
+      //warn the user if they selected too many
+      setState(() {
+          errorMsg = 'The max # of images allowed is 3. Selected Image(s) were not added';
+      });
+    }
   }catch (e) {
       print("error while picking file.");
       print(e);
@@ -50,22 +64,26 @@ void selectMultiImg() async{
 
 //Function to choose an image from camera or gallery
 Future getImage(ImageSource media) async {
+  try {
   var img = await picker.pickImage(source: media);
-  
-  if (imageFiles != null) {
-    if (imageFiles!.length < 3) {
-  setState(() {
-    imageFiles?.add(img!);
-  });
-}
-  }
-  //TODO: CAN'T LIMIT # OF IMAGES SELECTED HERE. NEED TO A CHECK AND ONLY SELECT FIRST 3 DOWN THE LINE
-  else{
+  if (imageFiles.length < 3) {
     setState(() {
-      errorMsg = 'Max # of images selected already';
+      imageFiles.add(img!);
     });
+    errorMsg = '';
   }
+  else
+  {
+    setState(() {
+          errorMsg = 'The max # of images allowed is 3. Image was not added';
+      });
+  }
+} on Exception catch (e) {
+  // TODO
+  print(e);
 }
+}
+  //TODO: CAN'T LIMIT # OF IMAGES SELECTED HERE. NEED TO A CHECK AND ONLY SELECT FIRST 3 DOWN THE LINE
 
 //Function to select multiple images:
 
@@ -193,7 +211,14 @@ void myAlert() {
                               ),
                            ),
                            //add button here for user to press to delete selected image
-                           Icon(Icons.exit_to_app)
+                           IconButton(onPressed: (){
+                            //when delete button is pressed for the image
+                            setState(() {
+                              imageFiles.remove(imageone);
+                              errorMsg = '';
+                            });
+                           }, 
+                           icon: Icon(Icons.delete)),
                            ]
                         );
                      }).toList(),
