@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zot_sell/classes/app_listings.dart';
+import 'package:zot_sell/classes/listings.dart';
 
 class AddListing extends StatefulWidget {
   const AddListing({super.key});
@@ -204,21 +208,27 @@ void myAlert() {
                  imageFiles != null?Wrap(
                      children: imageFiles!.map((imageone){
                         return Stack(
+                          alignment: Alignment.topRight,
                            children:[Card( 
                               child: Container(
-                                 height: 100, width:100,
+                                 height: 118, width:118,
                                  child: Image.file(File(imageone.path)),
                               ),
                            ),
                            //add button here for user to press to delete selected image
-                           IconButton(onPressed: (){
-                            //when delete button is pressed for the image
+                           IconButton(
+                            onPressed: (){
+                            //when delete button is pressed for the image delete that selected image
                             setState(() {
                               imageFiles.remove(imageone);
                               errorMsg = '';
                             });
                            }, 
-                           icon: Icon(Icons.delete)),
+                           icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                            )
+                            ),
                            ]
                         );
                      }).toList(),
@@ -330,12 +340,24 @@ void myAlert() {
                 Container(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    var newListing = AppListings(
+                      docId: '', 
+                      time: 'time', 
+                      description: _itemDescriptionController.text, 
+                      imgUrl: '', 
+                      tags: [], 
+                      itemTitle: _itemTitleController.text, 
+                      meetingSpot: 'meetingSpot', 
+                      price: _itemPriceController.text, 
+                      quantity: _itemQuantityController.text, 
+                      user: 'test user');
+                  },
                   child: Text(
                     'Preview Listing',
                     style: TextStyle(fontSize: 20
                     )
-                    ))),
+                  ))),
                 
             ]
             ),
