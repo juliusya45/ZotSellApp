@@ -38,18 +38,13 @@ void selectMultiImg() async{
     var pickedfiles = await picker.pickMultiImage();
     //you can use ImageCourse.camera for Camera capture
     // ignore: unnecessary_null_comparison
-    if(imageFiles!.length < 3){
         imageFiles = pickedfiles;
         setState(() {
           errorMsg = '';
         });
-    }else{
-      setState(() {
-        errorMsg = 'Max # of images selected already';
-      });
-    }
   }catch (e) {
       print("error while picking file.");
+      print(e);
   }
 }
 
@@ -57,10 +52,12 @@ void selectMultiImg() async{
 Future getImage(ImageSource media) async {
   var img = await picker.pickImage(source: media);
   
-  if (imageFiles!.length < 3) {
-    setState(() {
-      imageFiles?.add(img!);
-    });
+  if (imageFiles != null) {
+    if (imageFiles!.length < 3) {
+  setState(() {
+    imageFiles?.add(img!);
+  });
+}
   }
   else{
     setState(() {
