@@ -59,6 +59,7 @@ Future getImage(ImageSource media) async {
   });
 }
   }
+  //TODO: CAN'T LIMIT # OF IMAGES SELECTED HERE. NEED TO A CHECK AND ONLY SELECT FIRST 3 DOWN THE LINE
   else{
     setState(() {
       errorMsg = 'Max # of images selected already';
