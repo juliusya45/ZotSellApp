@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -147,6 +149,25 @@ void myAlert() {
                     myAlert();
                   }, 
                   child: Text('Choose an Image')),
+                //TODO: Show selected images below:
+                 image != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.file(
+                        //to show image, you type like this.
+                        File(image!.path),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                        height: 300,
+                      ),
+                    ),
+                  )
+                : Text(
+                    "No Image",
+                    style: TextStyle(fontSize: 20),
+                  ),
                 SizedBox(height: 10),
                 const Text(
                 'Description:',
