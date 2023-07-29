@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -25,9 +24,31 @@ String errorMsg = '';
 //XFile seems to be a variable that stores the img?
 XFile? image;
 
+//XFile list to store multiple images:
+List<XFile>? imageFiles;
+
 //All Image related methods from https://www.porkaone.com/2022/07/how-to-upload-images-and-display-them.html
 //ImagePicker to choose images
 final ImagePicker picker = ImagePicker();
+
+//THIS ONE WORKS!!!
+//https://www.fluttercampus.com/guide/183/how-to-make-multiple-image-picker-in-flutter-app/
+void selectMultiImg() async{
+  try{
+    var pickedfiles = await picker.pickMultiImage();
+    //you can use ImageCourse.camera for Camera capture
+    // ignore: unnecessary_null_comparison
+    if(pickedfiles != null){
+        imageFiles = pickedfiles;
+        setState(() {
+        });
+    }else{
+        print("No image is selected.");
+    }
+  }catch (e) {
+      print("error while picking file.");
+  }
+}
 
 //Function to choose an image from camera or gallery
 Future getImage(ImageSource media) async {
@@ -37,6 +58,8 @@ Future getImage(ImageSource media) async {
       image = img;
     });
   }
+
+//Function to select multiple images:
 
 //popup dialog
 void myAlert() {
@@ -55,7 +78,7 @@ void myAlert() {
                     //if user click this button, user can upload image from gallery
                     onPressed: () {
                       Navigator.pop(context);
-                      getImage(ImageSource.gallery);
+                      selectMultiImg();
                     },
                     child: Row(
                       children: [
@@ -150,21 +173,18 @@ void myAlert() {
                   }, 
                   child: Text('Choose an Image')),
                 //TODO: Show selected images below:
-                 image != null
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.file(
-                        //to show image, you type like this.
-                        File(image!.path),
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                        height: 300,
-                      ),
-                    ),
-                  )
-                : Text(
+                 imageFiles != null?Wrap(
+                     children: imageFiles!.map((imageone){
+                        return Container(
+                           child:Card( 
+                              child: Container(
+                                 height: 100, width:100,
+                                 child: Image.file(File(imageone.path)),
+                              ),
+                           )
+                        );
+                     }).toList(),
+                  ):Text(
                     "No Image",
                     style: TextStyle(fontSize: 20),
                   ),
