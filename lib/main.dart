@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:zot_sell/screens/add_listing.dart';
 import 'package:zot_sell/screens/authenticate/verification_page.dart';
 import 'package:zot_sell/screens/home/home.dart';
-import 'package:zot_sell/screens/listing_screen.dart';
+import 'package:zot_sell/screens/listing/add_listing.dart';
+import 'package:zot_sell/screens/listing/listing_screen.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 import 'classes/app_listings.dart';
 import 'classes/zotuser.dart';
