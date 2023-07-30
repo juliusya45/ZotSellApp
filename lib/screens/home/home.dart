@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zot_sell/screens/add_listing.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
-import 'package:zot_sell/screens/listing_screen.dart';
 
 import '../../classes/app_listings.dart';
 import '../../classes/home_listing_card.dart';
 import '../../classes/zotuser.dart';
+import '../listing/add_listing.dart';
+import '../listing/listing_screen.dart';
 
 /// The `Home` class is a `StatefulWidget` that displays a list of Applistings and provides a drawer with
 /// options for the user, such as signing out.
