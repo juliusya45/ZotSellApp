@@ -1,9 +1,10 @@
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as p;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
@@ -20,13 +21,43 @@ class PreviewListingScreen extends StatefulWidget {
 
 class _PreviewListingScreenState extends State<PreviewListingScreen> {
 
+  final db = FirebaseFirestore.instance;
+
   final pageController = PageController(viewportFraction: 0.8, keepPage: true, );
+
 
   @override
   Widget build(BuildContext context) {
+
+    final docRef = db
+                .collection("appListings")
+                .withConverter(
+                  fromFirestore: AppListings.fromFirestore, 
+                  toFirestore: (AppListings appListing, _) => appListing.toFirestore()
+                ).doc();
     List<XFile> images = widget.images;
     AppListings listingItem = widget.listingItem;
     Zotuser zotuser = widget.zotuser;
+
+    List<String> imgUrls = [];
+
+    Future uploadImagesToFirebase(BuildContext context) async
+    {
+      final _firebaseStorage = FirebaseStorage.instance.ref();
+      for(int i = 0; i < images.length; i++)
+      {
+        File image = File(images[i].path);
+        String filePath = image.path;
+        //Creates a fileName that matches listingID on Firestore
+        String fileName = docRef.id + "-" + i.toString() + p.extension(filePath);
+        var fileRef = _firebaseStorage.child("images/$fileName");
+        await fileRef.putFile(image);
+        //getting the file download URL and storing it in a list:
+        imgUrls.add(await fileRef.getDownloadURL());
+        print(fileName);
+      }
+    }
+
 
     List<Widget> createChips()
     {
@@ -100,7 +131,8 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                       'Posted On: ',
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
-                    Text(listingItem.time,
+                    //Turns the timestamp object stored in Firebase into a readable date and time
+                    Text(DateFormat("MMM d, y  h:mm a").format(listingItem.time.toDate()),
                         style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
                   ],
                 ),
@@ -210,7 +242,17 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              //here is where the listing is uploaded
+              onPressed: () async {
+                //need to first complete filling out some data before uploading:
+                listingItem.time = Timestamp.now();
+                listingItem.docId = docRef.id;
+                //need to upload images:
+                await uploadImagesToFirebase(context);
+                //once uploaded put the urls in the listingItem:
+                listingItem.imgUrl = imgUrls[0];
+                await docRef.set(listingItem);
+              },
               style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
               child: const Text('List Item!'),
             ),

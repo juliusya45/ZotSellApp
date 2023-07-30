@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
 
@@ -75,7 +76,8 @@ class _ListingScreenState extends State<ListingScreen> {
                       'Posted On: ',
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
-                    Text(listingItem.time,
+                    //Turns the timestamp object stored in Firebase into a readable date and time
+                    Text(DateFormat("MMM d, y  h:mm a").format(listingItem.time.toDate()),
                         style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
                   ],
                 ),

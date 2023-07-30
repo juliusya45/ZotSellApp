@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zot_sell/screens/authenticate/verification_page.dart';
@@ -30,7 +31,7 @@ class MainApp extends StatelessWidget {
     //random Listings object to pass into a constructor
     AppListings blank = AppListings(
       docId: 'docId', 
-      time: 'time', 
+      time: Timestamp.now(), 
       description: 'description', 
       imgUrl: 'imgUrl', 
       tags: [],

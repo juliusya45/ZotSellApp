@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class AppListings
 {
   late String docId;
-  late String time; 
+  late Timestamp time; 
   late String description;
   late String imgUrl;
   late List tags;
@@ -40,14 +40,14 @@ class AppListings
   factory AppListings.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options,)
   {
     final data = snapshot.data();
-
+    //WARNING: SHOULD NOT DO THIS CONVERSION HERE. ONLY DO IT IN OTHER FILES TO DISPLAY
     //Turns the timestamp object stored in Firebase into a readable date and time
     //doc: https://pub.dev/documentation/intl/latest/intl/DateFormat-class.html
     String date = DateFormat("MMM d, y  h:mm a").format(data!['time'].toDate());
     //we don't know docId so leaving blank for now
     return AppListings(
     docId: '', 
-    time: date, 
+    time: data['time'], 
     description: data['description'], 
     imgUrl: data['imgUrl'], 
     tags: data['tags'],

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zot_sell/classes/app_listings.dart';
@@ -348,15 +349,15 @@ void myAlert() {
                   onPressed: (){
                     var newListing = AppListings(
                       docId: '', 
-                      time: 'time', 
+                      time: Timestamp.now(), 
                       description: _itemDescriptionController.text, 
                       imgUrl: '', 
-                      tags: [], 
+                      tags: ['test', 'test', 'test'], 
                       itemTitle: _itemTitleController.text, 
                       meetingSpot: 'meetingSpot', 
                       price: _itemPriceController.text, 
                       quantity: _itemQuantityController.text, 
-                      user: 'test user');
+                      user: user.uid);
                       Navigator.push(
                         context, MaterialPageRoute(
                           settings: const RouteSettings(name: '/preview_listing'),
