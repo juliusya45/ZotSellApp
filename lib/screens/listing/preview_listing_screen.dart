@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
+import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 
 class PreviewListingScreen extends StatefulWidget {
   final AppListings listingItem;
@@ -252,6 +253,14 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                 //once uploaded put the urls in the listingItem:
                 listingItem.imgUrl = imgUrls[0];
                 await docRef.set(listingItem);
+                //TODO: ADD LOADING CIRCLE HERE TO INDICATE BUTTON WAS CLICKED
+                //MAYBE HAVE IT REPLACE THE BUTTON OR SOMETHING SO IT CAN'T BE PRESSED TWICE
+                Navigator.push(
+                        context, MaterialPageRoute(
+                          settings: const RouteSettings(name: '/loading_home'),
+                          builder: (context) => LoadingHome()
+                          )
+                      );
               },
               style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
               child: const Text('List Item!'),

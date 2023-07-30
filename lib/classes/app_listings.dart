@@ -43,11 +43,11 @@ class AppListings
     //WARNING: SHOULD NOT DO THIS CONVERSION HERE. ONLY DO IT IN OTHER FILES TO DISPLAY
     //Turns the timestamp object stored in Firebase into a readable date and time
     //doc: https://pub.dev/documentation/intl/latest/intl/DateFormat-class.html
-    String date = DateFormat("MMM d, y  h:mm a").format(data!['time'].toDate());
+    //String date = DateFormat("MMM d, y  h:mm a").format(data!['time'].toDate());
     //we don't know docId so leaving blank for now
     return AppListings(
     docId: '', 
-    time: data['time'], 
+    time: data!['time'], 
     description: data['description'], 
     imgUrl: data['imgUrl'], 
     tags: data['tags'],
