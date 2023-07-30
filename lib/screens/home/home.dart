@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
             Navigator.push(context,
               MaterialPageRoute(
                 settings: const RouteSettings(name: '/add_listing'),
-                builder: (context) => AddListing())
+                builder: (context) => AddListing(user: zotuser,))
             );
           });
         },

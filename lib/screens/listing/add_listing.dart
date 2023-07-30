@@ -6,9 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/listings.dart';
+import 'package:zot_sell/classes/zotuser.dart';
+import 'package:zot_sell/screens/listing/preview_listing_screen.dart';
 
 class AddListing extends StatefulWidget {
-  const AddListing({super.key});
+  const AddListing({super.key, required this.user});
+
+  final Zotuser user;
 
   @override
   State<AddListing> createState() => _AddListingState();
@@ -44,14 +48,15 @@ void selectMultiImg() async{
     // ignore: unnecessary_null_comparison
     if (imageFiles.length < 3) {
       setState(() {
-        //while the # of images in the list is less than 3
-        while (imageFiles.length < 3) {
           //keep adding to the list
           for (var picked in pickedfiles) {
+            //check to make sure there are at most 3 imgs:
+            if(imageFiles.length < 3)
+            {
               imageFiles.add(picked);
             }
+          }
           errorMsg = '';
-        }
       });
     }
     else{
@@ -140,6 +145,9 @@ void myAlert() {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = widget.user;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -352,7 +360,14 @@ void myAlert() {
                       price: _itemPriceController.text, 
                       quantity: _itemQuantityController.text, 
                       user: 'test user');
+                      Navigator.push(
+                        context, MaterialPageRoute(
+                          settings: const RouteSettings(name: '/preview_listing'),
+                          builder: (context) => PreviewListingScreen(listingItem: newListing, zotuser: user,)
+                          )
+                      );
                   },
+
                   child: Text(
                     'Preview Listing',
                     style: TextStyle(fontSize: 20
