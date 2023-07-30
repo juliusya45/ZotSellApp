@@ -1,11 +1,8 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zot_sell/classes/app_listings.dart';
-import 'package:zot_sell/classes/listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
 import 'package:zot_sell/screens/listing/preview_listing_screen.dart';
 
@@ -363,7 +360,7 @@ void myAlert() {
                       Navigator.push(
                         context, MaterialPageRoute(
                           settings: const RouteSettings(name: '/preview_listing'),
-                          builder: (context) => PreviewListingScreen(listingItem: newListing, zotuser: user,)
+                          builder: (context) => PreviewListingScreen(listingItem: newListing, zotuser: user, images: imageFiles,)
                           )
                       );
                   },

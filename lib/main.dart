@@ -58,7 +58,7 @@ class MainApp extends StatelessWidget {
         //screen for addding a listing
         '/add_listing' : (context) => AddListing(user: blankUser,),
         //screen for previewing a listing before adding one
-        '/preview_listing' : (context) => PreviewListingScreen(listingItem: blank, zotuser: blankUser),
+        '/preview_listing' : (context) => PreviewListingScreen(listingItem: blank, zotuser: blankUser, images: [],),
       },
     );
   }

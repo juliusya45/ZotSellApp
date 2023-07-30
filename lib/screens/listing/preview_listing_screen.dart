@@ -1,20 +1,30 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
 
 class PreviewListingScreen extends StatefulWidget {
   final AppListings listingItem;
   final Zotuser zotuser;
-  const PreviewListingScreen({super.key, required this.listingItem, required this.zotuser});
+  final List<XFile> images;
+  const PreviewListingScreen({super.key, required this.listingItem, required this.zotuser, required this.images});
 
   @override
   State<PreviewListingScreen> createState() => _PreviewListingScreenState();
 }
 
 class _PreviewListingScreenState extends State<PreviewListingScreen> {
+
+  final pageController = PageController(viewportFraction: 0.8, keepPage: true, );
+
   @override
   Widget build(BuildContext context) {
+    List<XFile> images = widget.images;
     AppListings listingItem = widget.listingItem;
     Zotuser zotuser = widget.zotuser;
 
@@ -54,16 +64,31 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                       shape: RoundedRectangleBorder(
                           side: BorderSide(color: Colors.green[300]!, width: 3),
                             borderRadius: const BorderRadius.all(Radius.circular(10))),
-                      child: CachedNetworkImage(
-                        imageUrl: listingItem.imgUrl,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                        errorWidget: (context, url, error) =>
-                            Image.asset('assets/images/404.jpg'),
-                      ))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: PageView.builder(
+                          controller: pageController,
+                          itemCount: images.length,
+                          itemBuilder: (_, index)
+                          {
+                            return Image.file(File(images[index % images.length].path));
+                          }
+                        ),
+                      ),
+                    )
+                  ),
             ),
+            SmoothPageIndicator(
+                          controller: pageController,
+                          count: images.length,
+                          effect: ExpandingDotsEffect(
+                            
+                            dotHeight: 16,
+                            dotWidth: 16,
+                            dotColor: Colors.green[300]!,
+                            activeDotColor: Color.fromARGB(255, 221, 158, 64)
+                          ),
+                        ),
             const SizedBox(height: 15),
             Container(
               alignment: Alignment.centerLeft,
@@ -188,10 +213,11 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
               onPressed: () {},
               style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
               child: const Text('List Item!'),
-            )
+            ),
           ],
         ),
       ),
+      
     );
   }
 }
