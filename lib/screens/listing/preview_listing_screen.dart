@@ -88,7 +88,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
             const SizedBox(height: 25),
             Center(
               child: SizedBox(
-                  height: 250,
+                  height: 375,
                   width: 375,
       
                   child: Card(
@@ -103,7 +103,10 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                           itemCount: images.length,
                           itemBuilder: (_, index)
                           {
-                            return Image.file(File(images[index % images.length].path));
+                            return Image.file(
+                              File(images[index % images.length].path),
+                              fit: BoxFit.contain
+                              );
                           }
                         ),
                       ),

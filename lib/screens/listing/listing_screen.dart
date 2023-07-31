@@ -62,7 +62,7 @@ class _ListingScreenState extends State<ListingScreen> {
             const SizedBox(height: 25),
             Center(
               child: SizedBox(
-                  height: 250,
+                  height: 375,
                   width: 375,
       
                   child: Card(
