@@ -251,7 +251,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                 //need to upload images:
                 await uploadImagesToFirebase(context);
                 //once uploaded put the urls in the listingItem:
-                listingItem.imgUrl = imgUrls[0];
+                listingItem.imgUrl = imgUrls;
                 await docRef.set(listingItem);
                 //TODO: ADD LOADING CIRCLE HERE TO INDICATE BUTTON WAS CLICKED
                 //MAYBE HAVE IT REPLACE THE BUTTON OR SOMETHING SO IT CAN'T BE PRESSED TWICE

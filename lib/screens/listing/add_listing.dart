@@ -351,7 +351,7 @@ void myAlert() {
                       docId: '', 
                       time: Timestamp.now(), 
                       description: _itemDescriptionController.text, 
-                      imgUrl: '', 
+                      imgUrl: [], 
                       tags: ['test', 'test', 'test'], 
                       itemTitle: _itemTitleController.text, 
                       meetingSpot: 'meetingSpot', 

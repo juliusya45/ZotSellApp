@@ -6,7 +6,7 @@ class AppListings
   late String docId;
   late Timestamp time; 
   late String description;
-  late String imgUrl;
+  late List<dynamic> imgUrl;
   late List tags;
   late String itemTitle;
   late String meetingSpot;

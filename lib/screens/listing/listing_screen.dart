@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
 
@@ -14,10 +19,20 @@ class ListingScreen extends StatefulWidget {
 }
 
 class _ListingScreenState extends State<ListingScreen> {
+
+  final pageController = PageController(viewportFraction: 0.8, keepPage: true, );
+
   @override
   Widget build(BuildContext context) {
     AppListings listingItem = widget.listingItem;
     Zotuser zotuser = widget.zotuser;
+    List<String> imageUrls = [];
+
+    //This for loop adds multiple images to the list of strings
+    for(int i = 0; i < listingItem.imgUrl.length; i++)
+    {
+      imageUrls.add(listingItem.imgUrl[i]);
+    }
 
     List<Widget> createChips()
     {
@@ -55,16 +70,41 @@ class _ListingScreenState extends State<ListingScreen> {
                       shape: RoundedRectangleBorder(
                           side: BorderSide(color: Colors.green[300]!, width: 3),
                             borderRadius: const BorderRadius.all(Radius.circular(10))),
-                      child: CachedNetworkImage(
-                        imageUrl: listingItem.imgUrl,
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: PageView.builder(
+                          controller: pageController,
+                          itemCount: imageUrls.length,
+                          itemBuilder: (_, index)
+                          {
+                            return CachedNetworkImage(
+                        imageUrl: imageUrls[index],
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
                                 CircularProgressIndicator(
                                     value: downloadProgress.progress),
                         errorWidget: (context, url, error) =>
                             Image.asset('assets/images/404.jpg'),
-                      ))),
+                      );
+                          }
+                        ),
+                      ),
+                    ),
+              ),
             ),
+                  
+            
+            SmoothPageIndicator(
+                          controller: pageController,
+                          count: imageUrls.length,
+                          effect: ExpandingDotsEffect(
+                            
+                            dotHeight: 16,
+                            dotWidth: 16,
+                            dotColor: Colors.green[300]!,
+                            activeDotColor: Color.fromARGB(255, 221, 158, 64)
+                          ),
+                        ),
             const SizedBox(height: 15),
             Container(
               alignment: Alignment.centerLeft,

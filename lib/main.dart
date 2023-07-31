@@ -33,7 +33,7 @@ class MainApp extends StatelessWidget {
       docId: 'docId', 
       time: Timestamp.now(), 
       description: 'description', 
-      imgUrl: 'imgUrl', 
+      imgUrl: [], 
       tags: [],
       itemTitle: 'itemTitle', 
       meetingSpot: 'meetingSpot', 

@@ -43,7 +43,7 @@ class HomeListingCard extends StatelessWidget {
                             width: 90,
                             //Shows an image based on the link of the image passed into this class
                             child: CachedNetworkImage(
-                              imageUrl: listingItem.imgUrl,
+                              imageUrl: listingItem.imgUrl[0],
                               progressIndicatorBuilder: (context, url, downloadProgress) => 
                                   CircularProgressIndicator(value: downloadProgress.progress),
                               errorWidget: (context, url, error) => Image.asset('assets/images/404.jpg'),
