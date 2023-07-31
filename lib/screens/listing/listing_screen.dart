@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,7 @@ class ListingScreen extends StatefulWidget {
 
 class _ListingScreenState extends State<ListingScreen> {
 
-  final pageController = PageController(viewportFraction: 0.8, keepPage: true, );
+  final pageController = PageController(viewportFraction: 1, keepPage: true, );
 
   @override
   Widget build(BuildContext context) {
