@@ -21,7 +21,6 @@ class HomeListingCard extends StatelessWidget {
       {
         var chip = Chip(label: Text(listingItem.tags[i]));
         chips.add(chip);
-        chips.add(const SizedBox(width: 5));
       }
       return chips;
     }
@@ -69,12 +68,15 @@ class HomeListingCard extends StatelessWidget {
                           ),
                           ),
                         SizedBox(height: 10),
-                        Text(
-                          listingItem.description,
-                          style: TextStyle(
-                            fontSize: 14
-                          ),
-                          ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            listingItem.description,
+                            style: TextStyle(
+                              fontSize: 14
+                            ),
+                            ),
+                        ),
                         SizedBox(height: 10),
                         Text(
                           "Price: \$${listingItem.price}",
