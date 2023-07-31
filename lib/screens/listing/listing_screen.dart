@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
