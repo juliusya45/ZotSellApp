@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
 
@@ -61,61 +62,94 @@ class _HomeState extends State<Home> {
           )
       );
     }
+
+  //this method is called when list is refreshed
+  //refreshes the data in the listings list incase there are new listings
+  Future<void> refresh() async
+  {
+    allListings.removeRange(0, allListings.length);
+    //defining db reference:
+    final ref = database.collection('appListings').withConverter(
+    fromFirestore:  AppListings.fromFirestore,
+    toFirestore: (AppListings appListings, _) => appListings.toFirestore(),
+    );
+    
+    await ref.get().then((event) {
+      for (var doc in event.docs) {
+        final appListings = doc.data(); //Converts each listing into a Listings obj.
+        if(appListings != null)
+        {
+          appListings.docId = doc.id; //setting the docId attribute that was left blank
+          allListings.add(appListings); //adds each listing into a list of Listings
+        }
+        else
+        {
+          if (kDebugMode) {
+            print('did not get data');
+          }
+        }
+      }
+    });
+    setState(() {
+      
+    });
+  }
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       //added drawer to hold different buttons/actions
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
                 ),
-                )
-            ),
-            ListTile(
-              title: Text('${zotuser.username} is signed in'),
-              onTap: () {},
-            ),
-            ListTile(
-              title: const Text('Log Out'),
-              onTap: () {
-                //signs user out
-                FirebaseAuth.instance.signOut();
-                //Animation that puts the user back onto the login screen
-                //from: https://stackoverflow.com/questions/55586189/flutter-log-out-replace-stack-beautifully
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  PageRouteBuilder(pageBuilder: (BuildContext context, Animation animation,
-                      Animation secondaryAnimation) {
-                        //switch to Authpage?
-                    return const AuthPage();
-                  },
-                  transitionsBuilder: (BuildContext context,
-                      Animation<double> animation,
-                      Animation<double> secondaryAnimation,
-                      Widget child) {
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(1.0, 0.0),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: child,
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  )
+              ),
+              ListTile(
+                title: Text('${zotuser.username} is signed in'),
+                onTap: () {},
+              ),
+              ListTile(
+                title: const Text('Log Out'),
+                onTap: () {
+                  //signs user out
+                  FirebaseAuth.instance.signOut();
+                  //Animation that puts the user back onto the login screen
+                  //from: https://stackoverflow.com/questions/55586189/flutter-log-out-replace-stack-beautifully
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    PageRouteBuilder(pageBuilder: (BuildContext context, Animation animation,
+                        Animation secondaryAnimation) {
+                          //switch to Authpage?
+                      return const AuthPage();
+                    },
+                    transitionsBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      );
+                    }),
+                    (route) => false
                     );
-                  }),
-                  (route) => false
-                  );
-              },
-            )
-          ],
-        )
+                },
+              )
+            ],
+          ),
       ),
       appBar: AppBar(
         backgroundColor: Colors.green[300],
@@ -144,22 +178,25 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.blue[300],
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-          itemCount: allListings.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-              child: Card(
-                elevation: 3,
-                child: InkWell(
-                  onTap: () {
-                    viewListing(index);
-                  },
-                  child: HomeListingCard(listingItem: allListings[index],)
-                  ),
-              ),
-            );
-          }),
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: ListView.builder(
+            itemCount: allListings.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+                child: Card(
+                  elevation: 3,
+                  child: InkWell(
+                    onTap: () {
+                      viewListing(index);
+                    },
+                    child: HomeListingCard(listingItem: allListings[index],)
+                    ),
+                ),
+              );
+            }),
+      ),
     );
   }
 }
