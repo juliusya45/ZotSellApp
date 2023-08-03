@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
@@ -30,6 +33,8 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
   @override
   Widget build(BuildContext context) {
 
+
+
     final docRef = db
                 .collection("appListings")
                 .withConverter(
@@ -41,6 +46,25 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
     Zotuser zotuser = widget.zotuser;
 
     List<String> imgUrls = [];
+
+//This is derived from EX code from: https://github.com/bluefireteam/photo_view/blob/main/example/lib/screens/examples/gallery/gallery_example.dart
+//This sends an index to build a Photo View Gallery that displays the image stored at that index
+//Shouldn't be using imgUrls as images aren't uploaded until the List button is pressed
+  void open(BuildContext context, final int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GalleryPhotoViewWrapper(
+          galleryItems: images,
+          backgroundDecoration: const BoxDecoration(
+            color: Colors.black,
+          ),
+          initialIndex: index,
+          scrollDirection: Axis.horizontal,
+        ),
+      ),
+    );
+  }
 
     Future uploadImagesToFirebase(BuildContext context) async
     {
@@ -103,10 +127,15 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                           itemCount: images.length,
                           itemBuilder: (_, index)
                           {
-                            return Image.file(
+                            return GestureDetector(
+                              onTap: () {
+                                open(context, index);
+                              },
+                              child: Image.file(
                               File(images[index % images.length].path),
                               fit: BoxFit.contain
-                              );
+                              )
+                            );
                           }
                         ),
                       ),
@@ -275,3 +304,101 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
     );
   }
 }
+
+//This class is from the API docs provided by the photo_view package
+class GalleryPhotoViewWrapper extends StatefulWidget {
+  GalleryPhotoViewWrapper({super.key, 
+    this.loadingBuilder,
+    this.backgroundDecoration,
+    this.minScale,
+    this.maxScale,
+    this.initialIndex = 0,
+    required this.galleryItems,
+    this.scrollDirection = Axis.horizontal,
+  }) : pageController = PageController(initialPage: initialIndex);
+
+  final LoadingBuilder? loadingBuilder;
+  final BoxDecoration? backgroundDecoration;
+  final dynamic minScale;
+  final dynamic maxScale;
+  final int initialIndex;
+  final PageController pageController;
+  //galleryItems is a list of urls that are then parsed as images
+  final List<XFile> galleryItems;
+  final Axis scrollDirection;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _GalleryPhotoViewWrapperState();
+  }
+}
+
+class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
+  late int currentIndex = widget.initialIndex;
+
+  void onPageChanged(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: widget.backgroundDecoration,
+        constraints: BoxConstraints.expand(
+          height: MediaQuery.of(context).size.height,
+        ),
+        child: Stack(
+          //might need to change alignment to center?
+          alignment: Alignment.center,
+          children: <Widget>[
+            PhotoViewGallery.builder(
+              scrollPhysics: const BouncingScrollPhysics(),
+              builder: _buildItem,
+              itemCount: widget.galleryItems.length,
+              loadingBuilder: widget.loadingBuilder,
+              backgroundDecoration: widget.backgroundDecoration,
+              pageController: widget.pageController,
+              onPageChanged: onPageChanged,
+              scrollDirection: widget.scrollDirection,
+            ),
+            Container(
+              alignment: Alignment.bottomRight,
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                "Image ${currentIndex + 1}",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 17.0,
+                  decoration: null,
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 50),
+              alignment: Alignment.topLeft,
+              child: BackButton(
+                color: Colors.white,
+              )
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
+    //The item is an XFile
+    final XFile item = widget.galleryItems[index];
+    return PhotoViewGalleryPageOptions(
+            imageProvider: FileImage(File(item.path)),
+            initialScale: PhotoViewComputedScale.contained,
+            minScale: PhotoViewComputedScale.contained * (0.8),
+            maxScale: PhotoViewComputedScale.covered * 4.1,
+            heroAttributes: PhotoViewHeroAttributes(tag: index),
+          );
+  }
+}
+
