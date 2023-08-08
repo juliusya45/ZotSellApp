@@ -35,7 +35,7 @@ class _LoadingHomeState extends State<LoadingHome> {
   Future<void> setup() async
   {
     //defining db reference:
-    final ref = database.collection('appListings').withConverter(
+    final ref = database.collection('appListings').orderBy('time').withConverter(
     fromFirestore:  AppListings.fromFirestore,
     toFirestore: (AppListings appListings, _) => appListings.toFirestore(),
     );
