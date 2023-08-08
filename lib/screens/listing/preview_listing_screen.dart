@@ -12,6 +12,7 @@ import 'package:rive/rive.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
+import 'package:zot_sell/screens/home/home.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 
 class PreviewListingScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class PreviewListingScreen extends StatefulWidget {
   final Zotuser zotuser;
   final List<XFile> images;
   const PreviewListingScreen({super.key, required this.listingItem, required this.zotuser, required this.images});
-
+  
   @override
   State<PreviewListingScreen> createState() => _PreviewListingScreenState();
 }
@@ -29,13 +30,18 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
   final db = FirebaseFirestore.instance;
 
   final pageController = PageController(viewportFraction: 0.8, keepPage: true, );
-
+  //these valuenotifiers allow the scren to listen to these variables so the
+  //listing btn can be replaced with the loading indicator
+  ValueNotifier<bool> showLoading = ValueNotifier(false);
+  ValueNotifier<String> animation = ValueNotifier("Loading");
+  @override
+  initState()
+  {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
-
     final docRef = db
                 .collection("appListings")
                 .withConverter(
@@ -49,8 +55,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
     List<String> imgUrls = [];
     
     //for the loading animation
-    String animation = 'Loading';
-    var buttonPlace;
+    //gives 2 seconds before going back to home screen
     Timer? sendHomeTime;
 
 //This is derived from EX code from: https://github.com/bluefireteam/photo_view/blob/main/example/lib/screens/examples/gallery/gallery_example.dart
@@ -89,7 +94,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
       }
     }
 
-
+    //creates the tag chips
     List<Widget> createChips()
     {
       List<Widget> chips = [];
@@ -102,49 +107,62 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
       return chips;
     }
 
+    //navigates back to the home and removes the timer
+    //destroys previous paths as well
     void sendToHome()
     {
-      Navigator.pushReplacementNamed(context, '/loading_home');
+      Navigator.of(context)
+      .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoadingHome()), (route) => false);
       sendHomeTime?.cancel();
     }
 
-  //no workie :(
-    buttonPlace = ElevatedButton(
-              //here is where the listing is uploaded
-              onPressed: () async {
-                setState(() {
-                  buttonPlace = Center(
-                    child: SizedBox(
-                      height: 110,
-                      width: 110,
-                      //animation editor: https://editor.rive.app/file/loading/477204
-                      //docs: https://help.rive.app/runtimes/playback
-                      child: RiveAnimation.asset('assets/loading.riv',
-                      animations: [animation],)
-                    )
-                  );
-                });
-                //need to first complete filling out some data before uploading:
-                listingItem.time = Timestamp.now();
-                listingItem.docId = docRef.id;
-                //need to upload images:
-                await uploadImagesToFirebase(context);
-                //once uploaded put the urls in the listingItem:
-                listingItem.imgUrl = imgUrls;
-                await docRef.set(listingItem);
-                setState(() {
-                  animation = 'Success';
-                });
-                //TODO: ADD LOADING CIRCLE HERE TO INDICATE BUTTON WAS CLICKED
-                //MAYBE HAVE IT REPLACE THE BUTTON OR SOMETHING SO IT CAN'T BE PRESSED TWICE
-                sendHomeTime = Timer.periodic(const Duration(seconds: 2), (timer) => sendToHome());
-                
-              },
-              style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
-              child: const Text('List Item!'),
+    Widget loadingIndicator()
+    {
+      print("show indicator");
+      return Center(
+              child: SizedBox(
+                height: 110,
+                width: 110,
+                //animation editor: https://editor.rive.app/file/loading/477204
+                //docs: https://help.rive.app/runtimes/playback
+                child: RiveAnimation.asset('assets/loading.riv',
+                animations: [animation.value],)
+              )
             );
+    }
 
-    
+    //This widget is for the button that allows the user to list the item
+    Widget listButton()
+    {
+      return ElevatedButton(
+                  //here is where the listing is uploaded
+                  onPressed: () async {
+                    setState(() {
+                      showLoading.value = true;
+                      print("set True");
+                      //print(showLoading);
+                    });
+                    //need to first complete filling out some data before uploading:
+                    listingItem.time = Timestamp.now();
+                    listingItem.docId = docRef.id;
+                    //need to upload images:
+                    await uploadImagesToFirebase(context);
+                    //once uploaded put the urls in the listingItem:
+                    listingItem.imgUrl = imgUrls;
+                    await docRef.set(listingItem);
+                    setState(() {
+                      animation.value= "Success";
+                      print("set animation");
+                    });
+                    //TODO: ADD LOADING CIRCLE HERE TO INDICATE BUTTON WAS CLICKED
+                    //MAYBE HAVE IT REPLACE THE BUTTON OR SOMETHING SO IT CAN'T BE PRESSED TWICE
+                    sendHomeTime = Timer.periodic(const Duration(seconds: 2), (timer) => sendToHome());
+                    
+                  },
+                  style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
+                  child: const Text('List Item!'),
+                );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -324,29 +342,9 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                 ],
               ),
             ),
-            ElevatedButton(
-              //here is where the listing is uploaded
-              onPressed: () async {
-                //need to first complete filling out some data before uploading:
-                listingItem.time = Timestamp.now();
-                listingItem.docId = docRef.id;
-                //need to upload images:
-                await uploadImagesToFirebase(context);
-                //once uploaded put the urls in the listingItem:
-                listingItem.imgUrl = imgUrls;
-                await docRef.set(listingItem);
-                //TODO: ADD LOADING CIRCLE HERE TO INDICATE BUTTON WAS CLICKED
-                //MAYBE HAVE IT REPLACE THE BUTTON OR SOMETHING SO IT CAN'T BE PRESSED TWICE
-                Navigator.push(
-                        context, MaterialPageRoute(
-                          settings: const RouteSettings(name: '/loading_home'),
-                          builder: (context) => LoadingHome()
-                          )
-                      );
-              },
-              style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
-              child: const Text('List Item!'),
-            ),
+            SizedBox(height: 10,),
+            showLoading.value ? loadingIndicator() : listButton(),
+            SizedBox(height: 50)
           ],
         ),
       ),
@@ -451,4 +449,6 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
           );
   }
 }
+
+
 
