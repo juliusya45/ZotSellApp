@@ -27,8 +27,6 @@ class _HomeState extends State<Home> {
   //defining database:
   final database = FirebaseFirestore.instance;
 
-  
-
   @override
   Widget build(BuildContext context) {
 
@@ -37,7 +35,7 @@ class _HomeState extends State<Home> {
 
     //accessing zotuser from the zotuser passed in from the loading screen:
     Zotuser zotuser = widget.zotuser;
-    print(zotuser.username);
+    //print(zotuser.username);
 
     List<Widget> createChips(AppListings listingItem)
     {
@@ -179,24 +177,24 @@ class _HomeState extends State<Home> {
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
-        onRefresh: refresh,
-        child: ListView.builder(
-            itemCount: allListings.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-                child: Card(
-                  elevation: 3,
-                  child: InkWell(
-                    onTap: () {
-                      viewListing(index);
-                    },
-                    child: HomeListingCard(listingItem: allListings[index],)
-                    ),
-                ),
-              );
-            }),
-      ),
-    );
+          onRefresh: refresh,
+          child: ListView.builder(
+              itemCount: allListings.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+                  child: Card(
+                    elevation: 3,
+                    child: InkWell(
+                      onTap: () {
+                        viewListing(index);
+                      },
+                      child: HomeListingCard(listingItem: allListings[index],)
+                      ),
+                  ),
+                );
+              }),
+        )
+      );
   }
 }

@@ -8,12 +8,14 @@ environment:
 
 dependencies:
   cached_network_image: ^3.2.3
+  chips_choice: ^3.0.0
   cloud_firestore: ^4.8.1
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
   firebase_storage: ^11.2.5
   flutter:
     sdk: flutter
+  flutter_chip_tags: ^2.0.2
   flutter_spinkit: ^5.2.0
   image_picker: ^1.0.1
   intl: ^0.18.1

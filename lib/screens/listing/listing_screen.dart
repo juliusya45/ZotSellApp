@@ -217,8 +217,8 @@ class _ListingScreenState extends State<ListingScreen> {
                               //Trying to add a row of tags with the tag name on them
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 0),
-                                child: Row(
-                                  children: createChips(),
+                                child: Wrap(
+                                    children: createChips(),
                                 ),
                               ),
                             ],

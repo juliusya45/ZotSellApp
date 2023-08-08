@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:chips_choice/chips_choice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chip_tags/flutter_chip_tags.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
@@ -23,8 +25,20 @@ final _itemDescriptionController = TextEditingController();
 final _itemPriceController = TextEditingController();
 final _itemQuantityController = TextEditingController();
 
+//For Storing tags:
+int conditionTag = 0;
+int typeTag = 0;
+
+List<String> conditionList = ["New", "Like-New", "Lightly Used", "Used", "Heavily Used", "Broken"];
+List<String> typeList = ["Clothing", "Accessory", "Tech", "Jewelery", "Shoes"];
+List<String> finalTagList = [];
+List<String> custTagList = [];
+
 //String that is used with setState to display error messages
 String errorMsg = '';
+
+//Error msg for when fields aren't filled in:
+String filledErrMsg = '';
 
 //XFile seems to be a variable that stores the img?
 XFile? image;
@@ -35,6 +49,71 @@ List<XFile> imageFiles = [];
 //All Image related methods from https://www.porkaone.com/2022/07/how-to-upload-images-and-display-them.html
 //ImagePicker to choose images
 final ImagePicker picker = ImagePicker();
+
+bool areFieldsNotEmpty()
+{
+  if(_itemTitleController.text.isEmpty)
+  {
+    setState(() {
+      filledErrMsg = 'Please Title Listing';
+    });
+    return false;
+  }
+  else if(_itemDescriptionController.text.isEmpty)
+  {
+    setState(() {
+      filledErrMsg = 'Please Put a Description';
+    });
+    return false;
+  }
+  else if(_itemPriceController.text.isEmpty)
+  {
+    setState(() {
+      filledErrMsg = 'Please Add an Item Price';
+    });
+    return false;
+  }
+  else if(_itemQuantityController.text.isEmpty)
+  {
+    setState(() {
+      filledErrMsg = 'Please Specify Quantity';
+    });
+    return false;
+  }
+  else if(imageFiles.isEmpty)
+  {
+    setState(() {
+      filledErrMsg = 'Please Add Image(s)';
+    });
+    return false;
+  }
+  else if(custTagList.isEmpty)
+  {
+    setState(() {
+      filledErrMsg = 'Please Add a Custom Tag';
+    });
+    return false;
+  }
+  else if(finalTagList.isEmpty)
+  {
+    setState(() {
+      filledErrMsg = 'Please Select at least 3 Tags';
+    });
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
+
+void checkThenAdd(String tag)
+{
+  if(!finalTagList.contains(tag))
+  {
+    finalTagList.add(tag);
+  }
+}
 
 //THIS ONE WORKS!!!
 //https://www.fluttercampus.com/guide/183/how-to-make-multiple-image-picker-in-flutter-app/
@@ -157,7 +236,7 @@ void myAlert() {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,6 +336,7 @@ void myAlert() {
                   fontWeight: FontWeight.bold
                   )
                 ),
+                SizedBox(height: 10),
                 Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                 //Should be more like a paragraph text input box
@@ -281,7 +361,67 @@ void myAlert() {
                   ),
                   ),
                 ),
+                const Text(
+                'Add Tags:',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold
+                  )
+                ),
                 SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Item Condition",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                      ),
+                      ChipsChoice<int>.single(
+                        value: conditionTag, 
+                        onChanged: (val) => setState(() => conditionTag = val),
+                        choiceItems: C2Choice.listFrom<int, String>(
+                          source: conditionList,
+                          value: (i, v) => i,
+                          label: (i, v) => v,
+                        ),
+                        choiceCheckmark: true,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                        "Type of Item",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                      ),
+                      ChipsChoice<int>.single(
+                        value: typeTag, 
+                        onChanged: (val) => setState(() => typeTag = val),
+                        choiceItems: C2Choice.listFrom<int, String>(
+                          source: typeList,
+                          value: (i, v) => i,
+                          label: (i, v) => v,
+                        ),
+                        choiceCheckmark: true,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                        "Custom Tags (Hit space to add a tag)",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                        ),
+                        ChipTags(
+                          list: custTagList,
+                          chipColor: Color.fromARGB(255, 214, 237, 255),
+                          iconColor: Colors.blue,
+                          textColor: Colors.blue,
+                          chipPosition: ChipPosition.above,
+                          createTagOnSubmit: false,
+                          decoration: InputDecoration(hintText: "Add at least 1 custom tag"),
+                          keyboardType: TextInputType.text,
+                        )
+                    ]
+                    ),
+                ),
+                SizedBox(height: 10,),
                 const Text(
                 'Item Price:',
                 textAlign: TextAlign.left,
@@ -342,34 +482,55 @@ void myAlert() {
                   ),
                 ),
                 SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    filledErrMsg,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.red
+                      ),
+                  ),
+                ),
                 Container(
                   alignment: Alignment.center,
                   child: ElevatedButton(
                   onPressed: (){
-                    var newListing = AppListings(
-                      docId: '', 
-                      time: Timestamp.now(), 
-                      description: _itemDescriptionController.text, 
-                      imgUrl: [], 
-                      tags: ['test', 'test', 'test'], 
-                      itemTitle: _itemTitleController.text, 
-                      meetingSpot: 'meetingSpot', 
-                      price: _itemPriceController.text, 
-                      quantity: _itemQuantityController.text, 
-                      user: user.uid);
-                      Navigator.push(
-                        context, MaterialPageRoute(
-                          settings: const RouteSettings(name: '/preview_listing'),
-                          builder: (context) => PreviewListingScreen(listingItem: newListing, zotuser: user, images: imageFiles,)
-                          )
-                      );
+                    //uses a method that checks to see if tag already exists in the list so there are no duplicates
+                    checkThenAdd(conditionList[conditionTag]);
+                    checkThenAdd(typeList[typeTag]);
+                    for (var tag in custTagList) {
+                      checkThenAdd(tag);
+                    }
+                    if (areFieldsNotEmpty()) {
+                      var newListing = AppListings(
+                        docId: '', 
+                        time: Timestamp.now(), 
+                        description: _itemDescriptionController.text, 
+                        imgUrl: [], 
+                        tags: finalTagList, 
+                        itemTitle: _itemTitleController.text, 
+                        meetingSpot: 'meetingSpot', 
+                        price: _itemPriceController.text, 
+                        quantity: _itemQuantityController.text, 
+                        user: user.uid);
+                        Navigator.push(
+                          context, MaterialPageRoute(
+                            settings: const RouteSettings(name: '/preview_listing'),
+                            builder: (context) => PreviewListingScreen(listingItem: newListing, zotuser: user, images: imageFiles,)
+                            )
+                        );
+                    }
                   },
 
                   child: Text(
                     'Preview Listing',
                     style: TextStyle(fontSize: 20
                     )
-                  ))),
+                  )
+                  
+                  ),
+                  ),
+                  SizedBox(height: 20,)
                 
             ]
             ),

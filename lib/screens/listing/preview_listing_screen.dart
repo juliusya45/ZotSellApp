@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
@@ -7,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:rive/rive.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
@@ -45,6 +47,11 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
     Zotuser zotuser = widget.zotuser;
 
     List<String> imgUrls = [];
+    
+    //for the loading animation
+    String animation = 'Loading';
+    var buttonPlace;
+    Timer? sendHomeTime;
 
 //This is derived from EX code from: https://github.com/bluefireteam/photo_view/blob/main/example/lib/screens/examples/gallery/gallery_example.dart
 //This sends an index to build a Photo View Gallery that displays the image stored at that index
@@ -94,6 +101,50 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
       }
       return chips;
     }
+
+    void sendToHome()
+    {
+      Navigator.pushReplacementNamed(context, '/loading_home');
+      sendHomeTime?.cancel();
+    }
+
+  //no workie :(
+    buttonPlace = ElevatedButton(
+              //here is where the listing is uploaded
+              onPressed: () async {
+                setState(() {
+                  buttonPlace = Center(
+                    child: SizedBox(
+                      height: 110,
+                      width: 110,
+                      //animation editor: https://editor.rive.app/file/loading/477204
+                      //docs: https://help.rive.app/runtimes/playback
+                      child: RiveAnimation.asset('assets/loading.riv',
+                      animations: [animation],)
+                    )
+                  );
+                });
+                //need to first complete filling out some data before uploading:
+                listingItem.time = Timestamp.now();
+                listingItem.docId = docRef.id;
+                //need to upload images:
+                await uploadImagesToFirebase(context);
+                //once uploaded put the urls in the listingItem:
+                listingItem.imgUrl = imgUrls;
+                await docRef.set(listingItem);
+                setState(() {
+                  animation = 'Success';
+                });
+                //TODO: ADD LOADING CIRCLE HERE TO INDICATE BUTTON WAS CLICKED
+                //MAYBE HAVE IT REPLACE THE BUTTON OR SOMETHING SO IT CAN'T BE PRESSED TWICE
+                sendHomeTime = Timer.periodic(const Duration(seconds: 2), (timer) => sendToHome());
+                
+              },
+              style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
+              child: const Text('List Item!'),
+            );
+
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -231,8 +282,8 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                               //Trying to add a row of tags with the tag name on them
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 0),
-                                child: Row(
-                                  children: createChips(),
+                                child: Wrap(
+                                    children: createChips(),
                                 ),
                               ),
                             ],
