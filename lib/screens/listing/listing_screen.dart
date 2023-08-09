@@ -259,11 +259,22 @@ class _ListingScreenState extends State<ListingScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 10,),
             ElevatedButton(
               onPressed: () {},
-              style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
-              child: const Text('Buy'),
-            )
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                minimumSize: Size(90, 50)
+                ), 
+              child: const Text(
+                'Buy',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),
+                ),
+            ),
+            SizedBox(height: 30)
           ],
         ),
       ),

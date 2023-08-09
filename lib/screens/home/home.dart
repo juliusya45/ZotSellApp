@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
   {
     allListings.removeRange(0, allListings.length);
     //defining db reference:
-    final ref = database.collection('appListings').withConverter(
+    final ref = database.collection('appListings').orderBy('time').withConverter(
     fromFirestore:  AppListings.fromFirestore,
     toFirestore: (AppListings appListings, _) => appListings.toFirestore(),
     );
@@ -75,6 +75,7 @@ class _HomeState extends State<Home> {
     await ref.get().then((event) {
       for (var doc in event.docs) {
         final appListings = doc.data(); //Converts each listing into a Listings obj.
+        // ignore: unnecessary_null_comparison
         if(appListings != null)
         {
           appListings.docId = doc.id; //setting the docId attribute that was left blank

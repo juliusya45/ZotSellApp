@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'app_listings.dart';
 
@@ -63,25 +62,27 @@ class HomeListingCard extends StatelessWidget {
                       children: [
                         Text(
                           listingItem.itemTitle,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 22,
                           fontWeight: FontWeight.bold
                           ),
                           ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             listingItem.description,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14
                             ),
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
                             ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           "Price: \$${listingItem.price}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500
                             ),

@@ -180,8 +180,8 @@ void myAlert() {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Please choose media to select'),
-            content: Container(
+            title: const Text('Please choose media to select'),
+            content: SizedBox(
               height: MediaQuery.of(context).size.height / 6,
               child: Column(
                 children: [
@@ -191,7 +191,7 @@ void myAlert() {
                       Navigator.pop(context);
                       selectMultiImg();
                     },
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(Icons.image),
                         Text('From Gallery'),
@@ -204,7 +204,7 @@ void myAlert() {
                       Navigator.pop(context);
                       getImage(ImageSource.camera);
                     },
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(Icons.camera),
                         Text('From Camera'),
@@ -226,7 +226,7 @@ void myAlert() {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'New Listing',
           style: TextStyle(
             fontSize: 28,
@@ -271,7 +271,7 @@ void myAlert() {
                   ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 const Text(
                 'Upload Photo(s):',
                 textAlign: TextAlign.left,
@@ -280,21 +280,22 @@ void myAlert() {
                   fontWeight: FontWeight.bold
                   )
                 ),
-                SizedBox(height: 5),
-                Text('Please select up to 3 images of the item you are listing'),
+                const SizedBox(height: 5),
+                const Text('Please select up to 3 images of the item you are listing'),
                 //TODO: Add image uploading under here:
                 ElevatedButton(
                   onPressed: (){
                     myAlert();
                   }, 
-                  child: Text('Choose Image(s)')),
+                  child: const Text('Choose Image(s)')),
                 //TODO: Show selected images below:
+                 // ignore: unnecessary_null_comparison
                  imageFiles != null?Wrap(
-                     children: imageFiles!.map((imageone){
+                     children: imageFiles.map((imageone){
                         return Stack(
                           alignment: Alignment.topRight,
                            children:[Card( 
-                              child: Container(
+                              child: SizedBox(
                                  height: 118, width:118,
                                  child: Image.file(File(imageone.path)),
                               ),
@@ -308,7 +309,7 @@ void myAlert() {
                               errorMsg = '';
                             });
                            }, 
-                           icon: Icon(
+                           icon: const Icon(
                             Icons.delete,
                             color: Colors.red,
                             )
@@ -316,18 +317,18 @@ void myAlert() {
                            ]
                         );
                      }).toList(),
-                  ):Text(
+                  ):const Text(
                     "No Image Selected Yet",
                     style: TextStyle(fontSize: 20),
                   ),
                 //error text
                 Text(
                   errorMsg,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.red
                   )
                   ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 const Text(
                 'Description:',
                 textAlign: TextAlign.left,
@@ -336,7 +337,7 @@ void myAlert() {
                   fontWeight: FontWeight.bold
                   )
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                 //Should be more like a paragraph text input box
@@ -361,7 +362,7 @@ void myAlert() {
                   ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 const Text(
                 'Add Tags:',
                 textAlign: TextAlign.left,
@@ -370,12 +371,12 @@ void myAlert() {
                   fontWeight: FontWeight.bold
                   )
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Item Condition",
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                       ),
@@ -389,8 +390,8 @@ void myAlert() {
                         ),
                         choiceCheckmark: true,
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                         "Type of Item",
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                       ),
@@ -404,25 +405,25 @@ void myAlert() {
                         ),
                         choiceCheckmark: true,
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                         "Custom Tags (Hit space to add a tag)",
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                         ),
                         ChipTags(
                           list: custTagList,
-                          chipColor: Color.fromARGB(255, 214, 237, 255),
+                          chipColor: const Color.fromARGB(255, 214, 237, 255),
                           iconColor: Colors.blue,
                           textColor: Colors.blue,
                           chipPosition: ChipPosition.above,
                           createTagOnSubmit: false,
-                          decoration: InputDecoration(hintText: "Add at least 1 custom tag"),
+                          decoration: const InputDecoration(hintText: "Add at least 1 custom tag"),
                           keyboardType: TextInputType.text,
                         )
                     ]
                     ),
                 ),
-                SizedBox(height: 25,),
+                const SizedBox(height: 25,),
                 const Text(
                 'Item Price:',
                 textAlign: TextAlign.left,
@@ -452,7 +453,7 @@ void myAlert() {
                   ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 const Text(
                 'Number Available:',
                 textAlign: TextAlign.left,
@@ -482,17 +483,17 @@ void myAlert() {
                   ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(
                   child: Text(
                     filledErrMsg,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.red
                       ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.center,
                   child: ElevatedButton(
@@ -524,9 +525,9 @@ void myAlert() {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(180, 50)
+                    minimumSize: const Size(180, 50)
                   ),
-                  child: Text(
+                  child: const Text(
                     'Preview Listing',
                     style: TextStyle(fontSize: 20
                     )
@@ -534,7 +535,7 @@ void myAlert() {
                   
                   ),
                   ),
-                  SizedBox(height: 20,)
+                  const SizedBox(height: 20,)
                 
             ]
             ),

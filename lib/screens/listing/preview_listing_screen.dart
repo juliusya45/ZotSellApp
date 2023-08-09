@@ -12,7 +12,6 @@ import 'package:rive/rive.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
-import 'package:zot_sell/screens/home/home.dart';
 import 'package:zot_sell/screens/loading_screens/loading_home.dart';
 
 class PreviewListingScreen extends StatefulWidget {
@@ -79,14 +78,14 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
 
     Future uploadImagesToFirebase(BuildContext context) async
     {
-      final _firebaseStorage = FirebaseStorage.instance.ref();
+      final firebaseStorage = FirebaseStorage.instance.ref();
       for(int i = 0; i < images.length; i++)
       {
         File image = File(images[i].path);
         String filePath = image.path;
         //Creates a fileName that matches listingID on Firestore
-        String fileName = docRef.id + "-" + i.toString() + p.extension(filePath);
-        var fileRef = _firebaseStorage.child("images/$fileName");
+        String fileName = "${docRef.id}-$i${p.extension(filePath)}";
+        var fileRef = firebaseStorage.child("images/$fileName");
         await fileRef.putFile(image);
         //getting the file download URL and storing it in a list:
         imgUrls.add(await fileRef.getDownloadURL());
@@ -112,7 +111,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
     void sendToHome()
     {
       Navigator.of(context)
-      .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoadingHome()), (route) => false);
+      .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoadingHome()), (route) => false);
       sendHomeTime?.cancel();
     }
 
@@ -218,7 +217,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                             dotHeight: 16,
                             dotWidth: 16,
                             dotColor: Colors.green[300]!,
-                            activeDotColor: Color.fromARGB(255, 221, 158, 64)
+                            activeDotColor: const Color.fromARGB(255, 221, 158, 64)
                           ),
                         ),
             const SizedBox(height: 15),
@@ -342,9 +341,9 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             showLoading.value ? loadingIndicator() : listButton(),
-            SizedBox(height: 50)
+            const SizedBox(height: 50)
           ],
         ),
       ),
@@ -427,7 +426,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 50),
               alignment: Alignment.topLeft,
-              child: BackButton(
+              child: const BackButton(
                 color: Colors.white,
               )
             )
