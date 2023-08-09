@@ -40,6 +40,8 @@ class AppListings
   factory AppListings.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options,)
   {
     final data = snapshot.data();
+    var f = NumberFormat("###.00", "en_US");
+    var money = f.format(double.parse(data?['price']));
     //WARNING: SHOULD NOT DO THIS CONVERSION HERE. ONLY DO IT IN OTHER FILES TO DISPLAY
     //Turns the timestamp object stored in Firebase into a readable date and time
     //doc: https://pub.dev/documentation/intl/latest/intl/DateFormat-class.html
@@ -53,7 +55,7 @@ class AppListings
     tags: data['tags'],
     itemTitle: data['itemTitle'], 
     meetingSpot: data['meetingSpot'],  
-    price: data['price'], 
+    price: money, 
     quantity: data['quantity'],
     user: data['user']);
   }

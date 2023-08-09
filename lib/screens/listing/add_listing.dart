@@ -55,7 +55,7 @@ bool areFieldsNotEmpty()
   if(_itemTitleController.text.isEmpty)
   {
     setState(() {
-      filledErrMsg = 'Please Title Listing';
+      filledErrMsg = 'Please Give Listing a Title';
     });
     return false;
   }
@@ -236,7 +236,7 @@ void myAlert() {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,6 +361,7 @@ void myAlert() {
                   ),
                   ),
                 ),
+                SizedBox(height: 10,),
                 const Text(
                 'Add Tags:',
                 textAlign: TextAlign.left,
@@ -421,7 +422,7 @@ void myAlert() {
                     ]
                     ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 25,),
                 const Text(
                 'Item Price:',
                 textAlign: TextAlign.left,
@@ -491,6 +492,7 @@ void myAlert() {
                       ),
                   ),
                 ),
+                SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.center,
                   child: ElevatedButton(
@@ -521,7 +523,9 @@ void myAlert() {
                         );
                     }
                   },
-
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(180, 50)
+                  ),
                   child: Text(
                     'Preview Listing',
                     style: TextStyle(fontSize: 20
