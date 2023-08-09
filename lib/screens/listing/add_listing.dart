@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chip_tags/flutter_chip_tags.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
 import 'package:zot_sell/screens/listing/preview_listing_screen.dart';
@@ -505,6 +506,8 @@ void myAlert() {
                       checkThenAdd(tag);
                     }
                     if (areFieldsNotEmpty()) {
+                      var f = NumberFormat("###.00", "en_US");
+                    var money = f.format(double.parse(_itemPriceController.text));
                       var newListing = AppListings(
                         docId: '', 
                         time: Timestamp.now(), 
@@ -513,7 +516,7 @@ void myAlert() {
                         tags: finalTagList, 
                         itemTitle: _itemTitleController.text, 
                         meetingSpot: 'meetingSpot', 
-                        price: _itemPriceController.text, 
+                        price: money, 
                         quantity: _itemQuantityController.text, 
                         user: user.uid);
                         Navigator.push(

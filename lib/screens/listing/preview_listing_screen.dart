@@ -28,7 +28,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
 
   final db = FirebaseFirestore.instance;
 
-  final pageController = PageController(viewportFraction: 0.8, keepPage: true, );
+  final pageController = PageController(viewportFraction: 1, keepPage: true, );
   //these valuenotifiers allow the scren to listen to these variables so the
   //listing btn can be replaced with the loading indicator
   ValueNotifier<bool> showLoading = ValueNotifier(false);
@@ -158,8 +158,17 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                     sendHomeTime = Timer.periodic(const Duration(seconds: 2), (timer) => sendToHome());
                     
                   },
-                  style: const ButtonStyle(elevation: MaterialStatePropertyAll(5)), 
-                  child: const Text('List Item!'),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(90, 50),
+                    elevation: 5,
+                  ), 
+                  child: const Text(
+                    'List Item!',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                    ),
+                    ),
                 );
     }
 
@@ -220,44 +229,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                             activeDotColor: const Color.fromARGB(255, 221, 158, 64)
                           ),
                         ),
-            const SizedBox(height: 15),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Posted On: ',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    //Turns the timestamp object stored in Firebase into a readable date and time
-                    Text(DateFormat("MMM d, y  h:mm a").format(listingItem.time.toDate()),
-                        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Posted By: ',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(zotuser.username,
-                        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -273,6 +245,29 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Posted On: ',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                  ),
+                                  //Turns the timestamp object stored in Firebase into a readable date and time
+                                  Text(DateFormat("MMM d, y  h:mm a").format(listingItem.time.toDate()),
+                                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Posted By: ',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                  ),
+                                  Text(zotuser.username,
+                                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                                ],
+                              ),
+                              const SizedBox(height: 20),
                               const Text('Description:',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 20)),
@@ -311,7 +306,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
             const SizedBox(height: 10),
             //TODO: add price and quantity underneath the description
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Row(
                 children: [
                   const Text(
@@ -327,7 +322,7 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Row(
                 children: [
                   const Text(

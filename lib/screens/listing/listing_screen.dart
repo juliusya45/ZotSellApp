@@ -138,42 +138,8 @@ class _ListingScreenState extends State<ListingScreen> {
                             activeDotColor: Color.fromARGB(255, 221, 158, 64)
                           ),
                         ),
-            const SizedBox(height: 15),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Posted On: ',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    //Turns the timestamp object stored in Firebase into a readable date and time
-                    Text(DateFormat("MMM d, y  h:mm a").format(listingItem.time.toDate()),
-                        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-                  ],
-                ),
-              ),
-            ),
             const SizedBox(
               height: 10,
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Posted By: ',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(zotuser.username,
-                        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
-                  ],
-                ),
-              ),
             ),
             const SizedBox(height: 10),
             Center(
@@ -191,6 +157,29 @@ class _ListingScreenState extends State<ListingScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Posted On: ',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                  ),
+                                  //Turns the timestamp object stored in Firebase into a readable date and time
+                                  Text(DateFormat("MMM d, y  h:mm a").format(listingItem.time.toDate()),
+                                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Posted By: ',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                  ),
+                                  Text(zotuser.username,
+                                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
+                                ],
+                              ),
+                              const SizedBox(height: 20),
                               const Text('Description:',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 20)),
@@ -229,7 +218,7 @@ class _ListingScreenState extends State<ListingScreen> {
             const SizedBox(height: 10),
             //TODO: add price and quantity underneath the description
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Row(
                 children: [
                   const Text(
@@ -245,7 +234,7 @@ class _ListingScreenState extends State<ListingScreen> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Row(
                 children: [
                   const Text(
