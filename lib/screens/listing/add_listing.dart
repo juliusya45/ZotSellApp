@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chip_tags/flutter_chip_tags.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,6 +52,9 @@ List<XFile> imageFiles = [];
 //ImagePicker to choose images
 final ImagePicker picker = ImagePicker();
 
+final List<String> locations = ['Brandywine', 'Anteatery', 'Zot N Go', 'Langston Library', 'Science Library', 'ARC'];
+String? selectedValue;
+
 bool areFieldsNotEmpty()
 {
   if(_itemTitleController.text.isEmpty)
@@ -99,6 +103,13 @@ bool areFieldsNotEmpty()
   {
     setState(() {
       filledErrMsg = 'Please Select at least 3 Tags';
+    });
+    return false;
+  }
+  else if(selectedValue == null)
+  {
+    setState(() {
+      filledErrMsg = 'Please select a Meeting Location';
     });
     return false;
   }
@@ -426,6 +437,71 @@ void myAlert() {
                 ),
                 const SizedBox(height: 25,),
                 const Text(
+                'Select Meeting Location:',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold
+                  )
+                ),
+                const SizedBox(height: 10,),
+                //add a selector thing for meeting locations here:
+                DropdownButtonHideUnderline(
+                  child: DropdownButton2<String>(
+                    isExpanded: true,
+                    hint: Text(
+                      'Select Item',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    ),
+                    items: locations
+                        .map((String item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    value: selectedValue,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      padding: EdgeInsets.only(left: 14, right: 14),
+                      height: 40,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: Colors.black26,
+                        ),
+                        color: Colors.grey[200],
+                      ),
+            elevation: 0,
+                    ),
+                    menuItemStyleData: const MenuItemStyleData(
+                      height: 40,
+                      padding: EdgeInsets.only(left: 14, right: 14),
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      offset: const Offset(0, 0),
+                      maxHeight: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                      )
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10,),
+                const Text(
                 'Item Price:',
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -515,9 +591,9 @@ void myAlert() {
                         imgUrl: [], 
                         tags: finalTagList, 
                         itemTitle: _itemTitleController.text, 
-                        meetingSpot: 'meetingSpot', 
+                        meetingSpot: selectedValue!, 
                         price: money, 
-                        quantity: _itemQuantityController.text, 
+                        quantity: _itemQuantityController.text,
                         user: user.uid);
                         Navigator.push(
                           context, MaterialPageRoute(

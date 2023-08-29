@@ -267,7 +267,12 @@ class _PreviewListingScreenState extends State<PreviewListingScreen> {
                                       style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18))
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                              const Divider(
+                                thickness: 3,
+                                height: 20,
+                                indent: 20,
+                                endIndent: 20,
+                              ),
                               const Text('Description:',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 20)),
