@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:zot_sell/screens/authenticate/auth_page.dart';
+import 'package:zot_sell/screens/navigation_screens/nav.dart';
 
 import '../../classes/app_listings.dart';
 import '../../classes/home_listing_card.dart';
@@ -93,7 +95,8 @@ class _HomeState extends State<Home> {
       
     });
   }
-
+  //This is code for just the bottom navbar. To make it actually work we need to create separate files to hold the widgets that will be displayed
+  //there is a chance I will need to make the home screen or nav into a separate file to organize things.
     return Scaffold(
       backgroundColor: Colors.grey[200],
       //added drawer to hold different buttons/actions

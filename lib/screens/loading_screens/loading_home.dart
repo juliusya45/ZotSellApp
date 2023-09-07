@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:zot_sell/classes/app_listings.dart';
 import 'package:zot_sell/classes/zotuser.dart';
-import 'package:zot_sell/screens/home/home.dart';
+import 'package:zot_sell/screens/navigation_screens/nav.dart';
 
 class LoadingHome extends StatefulWidget {
   const LoadingHome({super.key});
@@ -86,8 +86,8 @@ class _LoadingHomeState extends State<LoadingHome> {
   Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          settings: const RouteSettings(name: '/home'),
-          builder: (context) => Home(allListings: allListings, zotuser : sendZotuser),
+          settings: const RouteSettings(name: '/nav'),
+          builder: (context) => Nav(allListings: allListings, zotuser : sendZotuser),
           ),
       );
 }

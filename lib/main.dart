@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zot_sell/screens/authenticate/verification_page.dart';
-import 'package:zot_sell/screens/home/home.dart';
+import 'package:zot_sell/screens/navigation_screens/home.dart';
+import 'package:zot_sell/screens/navigation_screens/nav.dart';
 import 'package:zot_sell/screens/listing/add_listing.dart';
 import 'package:zot_sell/screens/listing/listing_screen.dart';
 import 'package:zot_sell/screens/listing/preview_listing_screen.dart';
@@ -52,8 +53,8 @@ class MainApp extends StatelessWidget {
         '/verification': (context) => const VerificationScreen(),
         //go to the loading screen to get all the listings from the db
         '/loading_home': (context) => const LoadingHome(),
-        //display all of the listings in the homepage
-        '/home': (context) => Home(allListings: const [], zotuser: blankUser),
+        //display all of the listings in the homepage with navigation menu
+        '/nav': (context) => Nav(allListings: const [], zotuser: blankUser),
         //show each listing seperately
         '/listing': (context) => ListingScreen(listingItem: blank, zotuser: blankUser),
         //screen for addding a listing
