@@ -100,59 +100,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       //added drawer to hold different buttons/actions
-      drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  )
-              ),
-              ListTile(
-                title: Text('${zotuser.username} is signed in'),
-                onTap: () {},
-              ),
-              ListTile(
-                title: const Text('Log Out'),
-                onTap: () {
-                  //signs user out
-                  FirebaseAuth.instance.signOut();
-                  //Animation that puts the user back onto the login screen
-                  //from: https://stackoverflow.com/questions/55586189/flutter-log-out-replace-stack-beautifully
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    PageRouteBuilder(pageBuilder: (BuildContext context, Animation animation,
-                        Animation secondaryAnimation) {
-                          //switch to Authpage?
-                      return const AuthPage();
-                    },
-                    transitionsBuilder: (BuildContext context,
-                        Animation<double> animation,
-                        Animation<double> secondaryAnimation,
-                        Widget child) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(1.0, 0.0),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: child,
-                      );
-                    }),
-                    (route) => false
-                    );
-                },
-              )
-            ],
-          ),
-      ),
       appBar: AppBar(
         backgroundColor: Colors.green[300],
         title: const Text(
@@ -164,22 +111,23 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //what to do after button is pressed
-          //going to AddListing screen when it is pressed
-          //need to use Navigator pushreplace here:
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            Navigator.push(context,
-              MaterialPageRoute(
-                settings: const RouteSettings(name: '/add_listing'),
-                builder: (context) => AddListing(user: zotuser,))
-            );
-          });
-        },
-        backgroundColor: Colors.blue[300],
-        child: const Icon(Icons.add),
-      ),
+      //add listing function went to a separate screen accessed from the bottom navbar
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     //what to do after button is pressed
+      //     //going to AddListing screen when it is pressed
+      //     //need to use Navigator pushreplace here:
+      //     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      //       Navigator.push(context,
+      //         MaterialPageRoute(
+      //           settings: const RouteSettings(name: '/add_listing'),
+      //           builder: (context) => AddListing(user: zotuser,))
+      //       );
+      //     });
+      //   },
+      //   backgroundColor: Colors.blue[300],
+      //   child: const Icon(Icons.add),
+      // ),
       body: RefreshIndicator(
           onRefresh: refresh,
           child: ListView.builder(

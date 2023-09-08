@@ -6,6 +6,7 @@ import 'package:zot_sell/screens/navigation_screens/settings.dart';
 
 import '../../classes/app_listings.dart';
 import '../../classes/zotuser.dart';
+import '../listing/add_listing.dart';
 import 'home.dart';
 
 class Nav extends StatefulWidget {
@@ -36,7 +37,8 @@ class _NavState extends State<Nav> {
   List<Widget> widgetOptions = 
   <Widget>[
     Home(allListings: widget.allListings, zotuser: widget.zotuser,),
-    Settings()
+    AddListing(user: widget.zotuser,),
+    Settings(zotuser: widget.zotuser,)
   ];
 
     return Scaffold(
@@ -77,6 +79,7 @@ class _NavState extends State<Nav> {
                   text: 'Add Listing',
                 ),
                 GButton(
+                  backgroundColor: Colors.blueGrey[300]?.withOpacity(.3),
                   icon: LineIcons.cog,
                   text: 'Settings',
                 ),
