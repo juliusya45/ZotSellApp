@@ -14,8 +14,9 @@ The backend is hosted on Firebase; Cloud Firestore and Cloud Storage were used t
 **Cloud Storage** was used to store images for each listing. Each image was associated with its listing by attaching its listing ID as the filename.
 
 # Images:
-<p float="left">
+<p float="center">
   <img src="images/screenshot1.png" width="200" />
   <img src="images/screenshot2.png" width="200" /> 
   <img src="images/screenshot3.png" width="200" />
+  <img src="images/screenshot4.png" width="200" />
 </p>
